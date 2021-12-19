@@ -1,11 +1,17 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application } from 'express'
+import path from 'path'
+import { Config } from './types'
 
+const config: Config = require('../config.json')
 const app: Application = express()
 
-app.get("/", (req: Request,  res: Response) => {
-    res.send("This is from express.js")
+app.use(express.static(path.join(__dirname, config.buildPath)))
+app.use(express.static(path.join(__dirname, config.publicPath)))
+
+app.post('/submit', (req, res) => {
+    res.send('This was a successful post request.')
 })
 
-app.listen(5000, () => {
-    console.log("server started on port 5000")
+app.listen(config.port, () => {
+    console.log(`Server started on port ${config.port}.`)
 })
