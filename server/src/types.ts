@@ -1,5 +1,5 @@
 export interface Config {
-    port: string,
+    port: number,
     buildPath: string,
     publicPath: string
 }
