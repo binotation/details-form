@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CircularProgress from '@mui/material/CircularProgress'
 import { LoadingState } from './types'
+import Form from './Form'
 
 function App() {
     const [loadingState, setLoadingState] = useState(LoadingState.Loading)
+    const params: URLSearchParams = useMemo(() => new URLSearchParams(window.location.search), [])
 
     useEffect(() => {
-        const qs: URLSearchParams = new URLSearchParams(window.location.search)
         const body: { id: string, token: string } = {
-            id: qs.get('id') ?? '',
-            token: qs.get('token') ?? ''
+            id: params.get('id') ?? '',
+            token: params.get('token') ?? ''
         }
 
         if (body.id === '' || body.token === '') {
             setLoadingState(LoadingState.Error)
-            return;
         } else {
             fetch('auth', {
                 method: 'POST',
@@ -42,7 +42,7 @@ function App() {
                     }
                 })
         }
-    }, [])
+    }, [params])
 
     const loadingRender = () => {
         switch (loadingState) {
@@ -50,7 +50,7 @@ function App() {
                 return <h1>{LoadingState.Error}</h1>
             }
             case LoadingState.Authorized: {
-                return <h1>{LoadingState.Authorized}</h1>
+                return <Form params={params} />
             }
             case LoadingState.Unauthorized: {
                 return <h1>{LoadingState.Unauthorized}</h1>
