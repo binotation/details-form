@@ -7,15 +7,16 @@ import Form from './Form'
 
 function App() {
     const [loadingState, setLoadingState] = useState(LoadingState.Loading)
-    const params: URLSearchParams = useMemo(() => new URLSearchParams(window.location.search), [])
+    const params: { id: string, token: string } = useMemo(() => {
+        const url = new URLSearchParams(window.location.search)
+        return {
+            id: url.get('id') ?? '',
+            token: url.get('token') ?? ''
+        }
+    }, [])
 
     useEffect(() => {
-        const body: { id: string, token: string } = {
-            id: params.get('id') ?? '',
-            token: params.get('token') ?? ''
-        }
-
-        if (body.id === '' || body.token === '') {
+        if (params.id === '' || params.token === '') {
             setLoadingState(LoadingState.Error)
         } else {
             fetch('auth', {
@@ -24,7 +25,7 @@ function App() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(body)
+                body: JSON.stringify(params)
             })
                 .then(resp => {
                     switch (resp.status) {
@@ -50,7 +51,7 @@ function App() {
                 return <h1>{LoadingState.Error}</h1>
             }
             case LoadingState.Authorized: {
-                return <Form params={params} />
+                return <Form id={params.id} token={params.token} />
             }
             case LoadingState.Unauthorized: {
                 return <h1>{LoadingState.Unauthorized}</h1>
