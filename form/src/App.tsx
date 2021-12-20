@@ -5,10 +5,10 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { LoadingState } from './types'
 
 function App() {
-    const qs: URLSearchParams = new URLSearchParams(window.location.search)
     const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 
     useEffect(() => {
+        const qs: URLSearchParams = new URLSearchParams(window.location.search)
         const body: { id: string, token: string } = {
             id: qs.get('id') ?? '',
             token: qs.get('token') ?? ''
@@ -42,7 +42,7 @@ function App() {
                     }
                 })
         }
-    })
+    }, [])
 
     const loadingRender = () => {
         switch (loadingState) {
