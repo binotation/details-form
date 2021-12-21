@@ -1,4 +1,4 @@
-import { FormValues, AddressState } from './types'
+import { FormValues, AddressState, SuperChoice } from './types'
 
 export const DEFAULT_VALUES: FormValues = {
     FirstName: '',
@@ -62,3 +62,10 @@ function enumToChoices(en: any, displayNames: string[]) {
 
 export const ADDRESS_STATE_DISPLAYNAMES: { displayName: string, value: AddressState }[] =
     enumToChoices(AddressState, ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'])
+export const SUPER_CHOICE_DISPLAYNAMES: { displayName: string, value: SuperChoice }[] =
+    enumToChoices(SuperChoice, [
+        '',
+        'APRA fund or retirement savings account (RSA)',
+        'Self-managed super fund (SMSF)',
+        'Super fund nominated by my employer'
+    ])

@@ -5,7 +5,7 @@ import FormGroup from '@mui/material/FormGroup'
 
 function PersonalDetails({ control }: { control: any }) {
     return (
-        <div className='FieldGroup FormSection'>
+        <div>
             <h2>Personal Details</h2>
             <FormGroup>
                 <h3>Contact Information</h3>

@@ -15,7 +15,7 @@ export enum AddressState {
 }
 
 export enum SuperChoice {
-    APRA, SMSF, EmployerNominated, None
+    None, APRA, SMSF, EmployerNominated
 }
 
 export enum EmploymentType {

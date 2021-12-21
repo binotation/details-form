@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import FormControl from '@mui/material/FormControl'
 import FormButtons from './form-sections/FormButtons'
 import PersonalDetails from './form-sections/PersonalDetails'
+import SuperDetails from './form-sections/SuperDetails'
 
 function Form({ id, token }: UrlParams) {
     const { handleSubmit, control, formState, reset, getValues } = useForm({
@@ -13,6 +14,7 @@ function Form({ id, token }: UrlParams) {
     return (
         <FormControl>
             <PersonalDetails control={control} />
+            <SuperDetails control={control} />
             <FormButtons handleSubmit={handleSubmit} id={id} token={token} />
         </FormControl>
     )
