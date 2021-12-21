@@ -2,12 +2,12 @@ import { useState, useEffect, useMemo } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CircularProgress from '@mui/material/CircularProgress'
-import { LoadingState } from './types'
+import { LoadingState, UrlParams } from './types'
 import Form from './Form'
 
 function App() {
     const [loadingState, setLoadingState] = useState(LoadingState.Loading)
-    const params: { id: string, token: string } = useMemo(() => {
+    const params: UrlParams = useMemo(() => {
         const url = new URLSearchParams(window.location.search)
         return {
             id: url.get('id') ?? '',

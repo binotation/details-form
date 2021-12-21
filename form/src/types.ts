@@ -5,6 +5,11 @@ export enum LoadingState {
     Error = 'Error'
 }
 
+export interface UrlParams {
+    id: string,
+    token: string
+}
+
 export enum AddressState {
     ACT, NSW, NT, QLD, SA, TAS, VIC, WA
 }
