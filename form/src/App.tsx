@@ -45,29 +45,36 @@ function App() {
         }
     }, [params])
 
-    const loadingRender = () => {
+    const renderLoadingResult = () => {
         switch (loadingState) {
-            case LoadingState.Error: {
-                return <h1>{LoadingState.Error}</h1>
-            }
-            case LoadingState.Authorized: {
-                return <Form id={params.id} token={params.token} />
+            case LoadingState.Loading: {
+                return <CircularProgress size={56} />
             }
             case LoadingState.Unauthorized: {
                 return <h1>{LoadingState.Unauthorized}</h1>
             }
-            case LoadingState.Loading: {
-                return <CircularProgress size={56} />
+            default: {
+                return <h1>{LoadingState.Error}</h1>
             }
+        }
+    }
+
+    const renderApp = () => {
+        if (loadingState === LoadingState.Authorized) {
+            return <Form id={params.id} token={params.token} />
+        } else {
+            return (
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    {renderLoadingResult()}
+                </header>
+            )
         }
     }
 
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                {loadingRender()}
-            </header>
+            {renderApp()}
         </div>
     )
 }
