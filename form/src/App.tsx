@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect, useMemo } from 'react'
+import logo from './logo.svg'
+import './App.css'
 import { LoadingState, UrlParams } from './types'
 import CircularProgress from '@mui/material/CircularProgress'
 import Form from './Form'
@@ -79,4 +79,4 @@ function App() {
     )
 }
 
-export default App;
+export default App

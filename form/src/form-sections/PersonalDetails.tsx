@@ -1,4 +1,6 @@
+import { ADDRESS_STATE_DISPLAYNAMES } from '../constants'
 import TextInput from '../inputs/TextInput'
+import DropdownInput from '../inputs/DropdownInput'
 import FormGroup from '@mui/material/FormGroup'
 
 function PersonalDetails({ control }: { control: any }) {
@@ -16,7 +18,7 @@ function PersonalDetails({ control }: { control: any }) {
                 <h3>Home Address Information</h3>
                 <TextInput name='AddressLine' control={control} label={'Address Line'} />
                 <TextInput name='AddressSuburb' control={control} label={'Suburb'} />
-                <TextInput name='AddressState' control={control} label={'State'} />
+                <DropdownInput name='AddressState' control={control} label={'State'} choices={ADDRESS_STATE_DISPLAYNAMES} />
                 <TextInput name='AddressPostalCode' control={control} label={'Postcode'} />
             </FormGroup>
             <FormGroup>
