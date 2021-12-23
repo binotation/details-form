@@ -7,14 +7,14 @@ import PersonalDetails from './form-sections/PersonalDetails'
 import SuperDetails from './form-sections/SuperDetails'
 
 function Form({ id, token }: UrlParams) {
-    const { handleSubmit, control, formState, reset, getValues } = useForm({
+    const { handleSubmit, control, watch, formState, reset, getValues } = useForm({
         defaultValues: DEFAULT_VALUES
     })
 
     return (
         <FormControl>
             <PersonalDetails control={control} />
-            <SuperDetails control={control} />
+            <SuperDetails control={control} watch={watch} />
             <FormButtons handleSubmit={handleSubmit} id={id} token={token} />
         </FormControl>
     )

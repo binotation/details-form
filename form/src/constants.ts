@@ -20,7 +20,7 @@ export const DEFAULT_VALUES: FormValues = {
     BankAccountNumber: '',
 
     SuperChoice: '',
-    StapledSuper: false,
+    StapledSuper: 'false',
     APRAUSI: '',
     APRAMemberNumber: '',
     SMSFName: '',

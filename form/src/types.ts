@@ -46,7 +46,7 @@ export interface FormValues {
     BankBSB: string,
 
     SuperChoice: SuperChoice | '',
-    StapledSuper: boolean,
+    StapledSuper: 'true' | 'false',
     APRAUSI: string,
     APRAMemberNumber: string,
     SMSFName: string,
