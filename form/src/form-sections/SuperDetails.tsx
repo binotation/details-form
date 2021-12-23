@@ -3,6 +3,7 @@ import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
 import FormGroup from '@mui/material/FormGroup'
+import CheckboxInput from '../inputs/CheckboxInput'
 import { SUPER_CHOICE_DISPLAYNAMES } from '../constants'
 
 function SuperDetails({ control, watch }: { control: any, watch: any }) {
@@ -42,17 +43,32 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
     )
 
     const renderSuperFields = () => {
+        const confirmCheckbox = <CheckboxInput name='SuperConfirmed' control={control} label='Confirm' />
+        let fields;
+        let confirm;
+
         switch (watch('SuperChoice')) {
             case SuperChoice.APRA: {
-                return ApraFields()
+                fields = ApraFields()
+                confirm = confirmCheckbox
+                break;
             }
             case SuperChoice.SMSF: {
-                return SmsfFields()
+                fields = SmsfFields()
+                confirm = confirmCheckbox
+                break;
             }
             default: {
-                return null
+                fields = null
+                confirm = null
             }
         }
+        return (
+            <div>
+                {fields}
+                {confirm}
+            </div>
+        )
     }
 
     const renderSuperDetails = () => {
