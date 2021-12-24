@@ -1,4 +1,4 @@
-import { FormValues, AddressState, SuperChoice, EmploymentType } from './types'
+import { FormValues, AddressState, SuperChoice, EmploymentType, ResidencyStatus } from './types'
 
 export const DEFAULT_VALUES: FormValues = {
     FirstName: '',
@@ -77,6 +77,12 @@ export const EMPLOYMENT_TYPES_DISPLAYNAMES: { displayName: string, value: Employ
     'Casual employment',
     'Superannuation or annuity income stream',
     'Labour hire'
+])
+
+export const RESIDENCY_STATUS_DISPLAYNAMES: { displayName: string, value: ResidencyStatus }[] = enumToChoices(ResidencyStatus, [
+    'Australian resident',
+    'Foreign resident',
+    'Working holiday maker'
 ])
 
 export const YES_NO_CHOICES: { displayName: string, value: 'false' | 'true' }[] = [
