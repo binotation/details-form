@@ -6,7 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import { Controller } from 'react-hook-form'
 
 function RadioInput({ name, control, choices, label }:
-    { name: string, control: any, choices: { displayName: string, value: number | boolean }[], label?: string }) {
+    { name: string, control: any, choices: { displayName: string, value: number | string }[], label?: string }) {
 
     const renderChoices = () => (
         choices.map((choice, index) => (

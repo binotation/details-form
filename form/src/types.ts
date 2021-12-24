@@ -60,15 +60,15 @@ export interface FormValues {
     TFN: string,
     DateOfBirth: Date | '',
     EmployeePaidBasis: EmploymentType | '',
-    IsAusResidentForTaxPurposes: boolean | '',
-    TaxFreeThresholdClaimed: boolean | '',
-    SeniorsPensioners: boolean | '',
-    TaxZoneOverseasInvalidCarer: boolean | '',
-    HasHelpDebt: boolean | '',
-    HasSupplementDebt: boolean | '',
+    IsAusResidentForTaxPurposes: '' | 'true' | 'false',
+    TaxFreeThresholdClaimed: '' | 'true' | 'false',
+    SeniorsPensioners: '' | 'true' | 'false',
+    TaxZoneOverseasInvalidCarer: '' | 'true' | 'false',
+    HasHelpDebt: '' | 'true' | 'false',
+    HasSupplementDebt: '' | 'true' | 'false',
     TaxConfirmed: boolean,
 
     ResidencyStatus: ResidencyStatus | '',
-    Convicted: boolean | '',
+    Convicted: '' | 'true' | 'false',
     ConvictionComment: string
 }

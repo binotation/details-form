@@ -8,11 +8,11 @@ import { SUPER_CHOICE_DISPLAYNAMES } from '../constants'
 
 function SuperDetails({ control, watch }: { control: any, watch: any }) {
     const noStapledSuperRadio = () => (
-        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'No stapled super', value: false }]} label='stapled' />
+        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'No stapled super', value: 'false' }]} label='stapled' />
     )
 
     const stapledSuperRadio = () => (
-        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'Stapled super', value: true }]} label='stapled' />
+        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'Stapled super', value: 'true' }]} label='stapled' />
     )
 
     const superChoiceDropdown = () => (

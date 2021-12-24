@@ -1,4 +1,4 @@
-import { FormValues, AddressState, SuperChoice } from './types'
+import { FormValues, AddressState, SuperChoice, EmploymentType } from './types'
 
 export const DEFAULT_VALUES: FormValues = {
     FirstName: '',
@@ -60,12 +60,32 @@ function enumToChoices(en: any, displayNames: string[]) {
     return choices
 }
 
-export const ADDRESS_STATE_DISPLAYNAMES: { displayName: string, value: AddressState }[] =
-    enumToChoices(AddressState, ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'])
-export const SUPER_CHOICE_DISPLAYNAMES: { displayName: string, value: SuperChoice }[] =
-    enumToChoices(SuperChoice, [
-        '',
-        'APRA fund or retirement savings account (RSA)',
-        'Self-managed super fund (SMSF)',
-        'Super fund nominated by my employer'
-    ])
+export const ADDRESS_STATE_DISPLAYNAMES: { displayName: string, value: AddressState }[] = enumToChoices(AddressState, [
+    'ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'
+])
+
+export const SUPER_CHOICE_DISPLAYNAMES: { displayName: string, value: SuperChoice }[] = enumToChoices(SuperChoice, [
+    '',
+    'APRA fund or retirement savings account (RSA)',
+    'Self-managed super fund (SMSF)',
+    'Super fund nominated by my employer'
+])
+
+export const EMPLOYMENT_TYPES_DISPLAYNAMES: { displayName: string, value: EmploymentType }[] = enumToChoices(EmploymentType, [
+    'Full-time employment',
+    'Part-time employment',
+    'Casual employment',
+    'Superannuation or annuity income stream',
+    'Labour hire'
+])
+
+export const YES_NO_CHOICES: { displayName: string, value: 'false' | 'true' }[] = [
+    {
+        displayName: 'Yes',
+        value: 'true'
+    },
+    {
+        displayName: 'No',
+        value: 'false'
+    }
+]
