@@ -13,14 +13,16 @@ function Form({ id, token }: UrlParams) {
         defaultValues: DEFAULT_VALUES
     })
 
+    const onSubmit = (data: any) => { console.log(data) }
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <form style={{ width: '36vw', maxWidth: '640px' }}>
+            <form style={{ width: '36vw', maxWidth: '640px' }} onSubmit={handleSubmit(onSubmit)}>
                 <PersonalDetails control={control} />
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
                 <WorkEligibility control={control} />
-                <FormButtons handleSubmit={handleSubmit} id={id} token={token} />
+                <FormButtons />
             </form>
         </Box>
     )

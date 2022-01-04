@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
-function FormButtons({ handleSubmit, id, token }: { handleSubmit: any, id: string, token: string }) {
+function FormButtons() {
     const onSubmit = (data: any) => { console.log(data) }
 
     const style = {
@@ -12,7 +12,7 @@ function FormButtons({ handleSubmit, id, token }: { handleSubmit: any, id: strin
 
     return (
         <Box sx={style}>
-            <Button variant='contained' onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button variant='contained' type='submit'>Submit</Button>
         </Box>
     )
 }
