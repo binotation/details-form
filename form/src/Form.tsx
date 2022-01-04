@@ -15,7 +15,7 @@ function Form({ id, token }: UrlParams) {
 
     return (
         <FormControl>
-            <form style={{ width: '56vw', maxWidth: '560px' }}>
+            <form style={{ width: '36vw', maxWidth: '640px' }}>
                 <PersonalDetails control={control} />
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
