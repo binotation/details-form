@@ -1,10 +1,10 @@
-import { SuperChoice } from '../types'
+import { SuperChoice } from '../exports/types'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
 import FormGroup from '@mui/material/FormGroup'
 import CheckboxInput from '../inputs/CheckboxInput'
-import { SUPER_CHOICE_DISPLAYNAMES } from '../constants'
+import { SUPER_CHOICE_DISPLAYNAMES } from '../exports/constants'
 
 function SuperDetails({ control, watch }: { control: any, watch: any }) {
     const noStapledSuperRadio = () => (

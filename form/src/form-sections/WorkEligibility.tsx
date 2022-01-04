@@ -2,7 +2,7 @@ import FormGroup from '@mui/material/FormGroup'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
-import { RESIDENCY_STATUS_DISPLAYNAMES, YES_NO_CHOICES } from '../constants'
+import { RESIDENCY_STATUS_DISPLAYNAMES, YES_NO_CHOICES } from '../exports/constants'
 
 function WorkEligibility({ control }: { control: any }) {
     return (

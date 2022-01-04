@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import { LoadingState, UrlParams } from './types'
+import { LoadingState, UrlParams } from './exports/types'
 import CircularProgress from '@mui/material/CircularProgress'
 import Form from './Form'
 
