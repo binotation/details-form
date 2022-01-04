@@ -16,6 +16,7 @@ function CheckboxInput({ name, control, label }: { name: string, control: any, l
                     )}
                 />}
             label={label}
+            sx={{ marginTop: '12px' }}
         />
     )
 }

@@ -1,7 +1,7 @@
 import { Controller } from 'react-hook-form'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import TextField from '@mui/material/TextField'
 
 function DateInput({ name, control, label }: { name: string, control: any, label: string }) {
@@ -16,12 +16,17 @@ function DateInput({ name, control, label }: { name: string, control: any, label
                         inputFormat="dd/MM/yyyy"
                         value={value}
                         onChange={onChange}
-                        renderInput={({error, ...params}) => <TextField {...params} variant='standard'/>}
+                        renderInput={({ error, ...params }) =>
+                            <TextField
+                                sx={{ marginTop: '6px' }}
+                                {...params}
+                                variant='standard'
+                            />
+                        }
                     />
                 </LocalizationProvider>
             )}
         />
-
     )
 }
 

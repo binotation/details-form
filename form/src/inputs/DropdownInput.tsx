@@ -4,15 +4,15 @@ import Select from '@mui/material/Select'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 
-function DropdownInput({ name, control, label, choices }:
-    { name: string, control: any, label: string, choices: any }) {
+function DropdownInput({ name, control, label, choices, shrink }:
+    { name: string, control: any, label: string, choices: any, shrink?: boolean }) {
     return (
         <Controller
             name={name}
             control={control}
             render={({ field: { onChange, value } }) => (
-                <FormControl>
-                    <InputLabel id={name + '-label'} >{label}</InputLabel>
+                <FormControl sx={{ marginTop: '12px' }}>
+                    <InputLabel id={name + '-label'} sx={{ marginLeft: '-14px' }} shrink={shrink}>{label}</InputLabel>
                     <Select
                         onChange={onChange}
                         value={value}

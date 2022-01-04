@@ -19,14 +19,22 @@ function RadioInput({ name, control, choices, label }:
         ))
     )
 
+    const style = {
+        display: 'flex',
+        alignItems: 'center',
+        flexFlow: 'row',
+        justifyContent: 'center',
+        marginTop: '12px'
+    };
+
     return (
         <Controller
             name={name}
             control={control}
             render={({ field: { onChange, value } }) => (
-                <FormControl>
-                    <FormLabel id={name + 'Label'}>{label}</FormLabel>
-                    <RadioGroup value={value} onChange={onChange}>
+                <FormControl sx={style}>
+                    <FormLabel id={name + 'Label'} sx={{ marginRight: '36px' }}>{label}</FormLabel>
+                    <RadioGroup value={value} onChange={onChange} sx={{ display: 'flex', flexFlow: 'row' }}>
                         {renderChoices()}
                     </RadioGroup>
                 </FormControl>

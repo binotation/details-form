@@ -8,7 +8,14 @@ function TextInput({ name, control, label, textFieldParams }: { name: string, co
             name={name}
             control={control}
             render={({ field: { onChange, value } }) => (
-                <TextField onChange={onChange} value={value} variant='standard' label={label} {...textFieldParams} />
+                <TextField
+                    onChange={onChange}
+                    value={value}
+                    variant='standard'
+                    label={label}
+                    sx={{ marginTop: '6px' }}
+                    {...textFieldParams}
+                />
             )}
         />
     )

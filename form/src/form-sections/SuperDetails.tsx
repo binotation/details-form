@@ -8,11 +8,11 @@ import { SUPER_CHOICE_DISPLAYNAMES } from '../constants'
 
 function SuperDetails({ control, watch }: { control: any, watch: any }) {
     const noStapledSuperRadio = () => (
-        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'No stapled super', value: 'false' }]} label='stapled' />
+        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'I do not want super contributions paid into my stapled super fund', value: 'false' }]} />
     )
 
     const stapledSuperRadio = () => (
-        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'Stapled super', value: 'true' }]} label='stapled' />
+        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'I want super contributions paid into my stapled super fund', value: 'true' }]} />
     )
 
     const superChoiceDropdown = () => (
@@ -21,6 +21,7 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
             control={control}
             name='SuperChoice'
             label='I request that all my future super contributions be paid to'
+            shrink={true}
         />
     )
 
@@ -43,7 +44,7 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
     )
 
     const renderSuperFields = () => {
-        const confirmCheckbox = <CheckboxInput name='SuperConfirmed' control={control} label='Confirm' />
+        const confirmCheckbox = <CheckboxInput name='SuperConfirmed' control={control} label='Please confirm the information you have entered.' />
         let fields;
         let confirm;
 

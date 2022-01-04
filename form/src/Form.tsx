@@ -15,11 +15,13 @@ function Form({ id, token }: UrlParams) {
 
     return (
         <FormControl>
-            <PersonalDetails control={control} />
-            <SuperDetails control={control} watch={watch} />
-            <TaxDetails control={control} />
-            <WorkEligibility control={control} />
-            <FormButtons handleSubmit={handleSubmit} id={id} token={token} />
+            <form style={{ width: '56vw', maxWidth: '560px' }}>
+                <PersonalDetails control={control} />
+                <SuperDetails control={control} watch={watch} />
+                <TaxDetails control={control} />
+                <WorkEligibility control={control} />
+                <FormButtons handleSubmit={handleSubmit} id={id} token={token} />
+            </form>
         </FormControl>
     )
 }

@@ -9,7 +9,7 @@ function WorkEligibility({ control }: { control: any }) {
         <FormGroup>
             <DropdownInput name='ResidencyStatus' control={control} label='Residency Status' choices={RESIDENCY_STATUS_DISPLAYNAMES} />
             <RadioInput name='Convicted' control={control} label='Have you ever previously been convicted of a felony or criminal offence?' choices={YES_NO_CHOICES} />
-            <TextInput name='ConvictionComment' control={control} label='Comments on conviction' textFieldParams={{ multiline: true, minRows: 3 }} />
+            <TextInput name='ConvictionComment' control={control} label='Comments on conviction' textFieldParams={{ multiline: true, minRows: 4 }} />
         </FormGroup>
     )
 }
