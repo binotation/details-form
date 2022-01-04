@@ -25,15 +25,17 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
         />
     )
 
-    const ApraFields = () => (
-        <FormGroup>
+    const fieldsStyle = { border: '1px solid grey', padding: '24px', borderRadius: '6px' }
+
+    const apraFields = () => (
+        <FormGroup sx={fieldsStyle}>
             <TextInput name='APRAUSI' control={control} label='USI' />
             <TextInput name='APRAMemberNumber' control={control} label='Member Number' />
         </FormGroup>
     )
 
-    const SmsfFields = () => (
-        <FormGroup>
+    const smsfFields = () => (
+        <FormGroup sx={fieldsStyle}>
             <TextInput name='SMSFName' control={control} label='Fund Name' />
             <TextInput name='SMSFABN' control={control} label='ABN' />
             <TextInput name='SMSFAccountName' control={control} label='SMSF Account Name' />
@@ -50,12 +52,12 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
 
         switch (watch('SuperChoice')) {
             case SuperChoice.APRA: {
-                fields = ApraFields()
+                fields = apraFields()
                 confirm = confirmCheckbox
                 break;
             }
             case SuperChoice.SMSF: {
-                fields = SmsfFields()
+                fields = smsfFields()
                 confirm = confirmCheckbox
                 break;
             }
