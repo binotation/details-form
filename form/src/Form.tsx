@@ -1,7 +1,7 @@
 import { UrlParams } from './types'
 import { DEFAULT_VALUES } from './constants'
 import { useForm } from 'react-hook-form'
-import FormControl from '@mui/material/FormControl'
+import Box from '@mui/material/Box'
 import FormButtons from './form-sections/FormButtons'
 import PersonalDetails from './form-sections/PersonalDetails'
 import SuperDetails from './form-sections/SuperDetails'
@@ -14,7 +14,7 @@ function Form({ id, token }: UrlParams) {
     })
 
     return (
-        <FormControl>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <form style={{ width: '36vw', maxWidth: '640px' }}>
                 <PersonalDetails control={control} />
                 <SuperDetails control={control} watch={watch} />
@@ -22,7 +22,7 @@ function Form({ id, token }: UrlParams) {
                 <WorkEligibility control={control} />
                 <FormButtons handleSubmit={handleSubmit} id={id} token={token} />
             </form>
-        </FormControl>
+        </Box>
     )
 }
 
