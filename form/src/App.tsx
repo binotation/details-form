@@ -75,6 +75,7 @@ function App() {
     return (
         <div className="App">
             {renderApp()}
+            <footer style={{ paddingBottom: '24px' }}></footer>
         </div>
     )
 }
