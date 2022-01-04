@@ -24,7 +24,7 @@ function RadioInput({ name, control, choices, label }:
         alignItems: 'center',
         flexFlow: 'row',
         justifyContent: 'center',
-        marginTop: '12px'
+        marginTop: '24px'
     };
 
     return (
