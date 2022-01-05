@@ -7,12 +7,14 @@ function TextInput({ name, control, label, textFieldParams }: { name: string, co
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
                 <TextField
                     onChange={onChange}
                     value={value}
                     variant='standard'
                     label={label}
+                    error={invalid}
+                    helperText={error?.message}
                     sx={{ marginTop: '6px' }}
                     {...textFieldParams}
                 />

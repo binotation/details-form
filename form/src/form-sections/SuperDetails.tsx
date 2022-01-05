@@ -38,10 +38,10 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
         <FormGroup sx={fieldsStyle}>
             <TextInput name='SMSFName' control={control} label='Fund Name' />
             <TextInput name='SMSFABN' control={control} label='ABN' />
-            <TextInput name='SMSFAccountName' control={control} label='SMSF Account Name' />
-            <TextInput name='SMSFAccountNumber' control={control} label='SMSF Account Number' />
-            <TextInput name='SMSFBSB' control={control} label='SMSF BSB' />
-            <TextInput name='SMSFElectronicServiceAddress' control={control} label='ABN' />
+            <TextInput name='SMSFAccountName' control={control} label='Account Name' />
+            <TextInput name='SMSFAccountNumber' control={control} label='Account Number' />
+            <TextInput name='SMSFBSB' control={control} label='BSB' />
+            <TextInput name='SMSFElectronicServiceAddress' control={control} label='Electronic Service Address' />
         </FormGroup>
     )
 

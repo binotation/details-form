@@ -9,17 +9,19 @@ function DateInput({ name, control, label }: { name: string, control: any, label
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                         label={label}
                         inputFormat="dd/MM/yyyy"
                         value={value}
                         onChange={onChange}
-                        renderInput={({ error, ...params }) =>
+                        renderInput={({ ...params }) =>
                             <TextField
                                 sx={{ marginTop: '6px' }}
                                 {...params}
+                                error={invalid}
+                                helperText={error?.message}
                                 variant='standard'
                             />
                         }

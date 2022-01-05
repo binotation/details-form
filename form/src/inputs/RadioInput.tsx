@@ -3,6 +3,8 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormGroup from '@mui/material/FormGroup'
 import { Controller } from 'react-hook-form'
 
 function RadioInput({ name, control, choices, label }:
@@ -22,7 +24,7 @@ function RadioInput({ name, control, choices, label }:
     const style = {
         display: 'flex',
         alignItems: 'center',
-        flexFlow: 'row',
+        flexFlow: 'column',
         justifyContent: 'center',
         marginTop: '24px'
     };
@@ -31,12 +33,15 @@ function RadioInput({ name, control, choices, label }:
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
                 <FormControl sx={style}>
-                    <FormLabel id={name + 'Label'} sx={{ marginRight: '36px' }}>{label}</FormLabel>
-                    <RadioGroup value={value} onChange={onChange} sx={{ display: 'flex', flexFlow: 'row' }}>
-                        {renderChoices()}
-                    </RadioGroup>
+                    <FormGroup sx={{ display: 'flex', flexFlow: 'row' }}>
+                        <FormLabel id={name + 'Label'} sx={{ marginRight: '36px' }}>{label}</FormLabel>
+                        <RadioGroup value={value} onChange={onChange} sx={{ display: 'flex', flexFlow: 'row' }}>
+                            {renderChoices()}
+                        </RadioGroup>
+                    </FormGroup>
+                    <FormHelperText error={invalid}>{error?.message}</FormHelperText>
                 </FormControl>
             )}
         />
