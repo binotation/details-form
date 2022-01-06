@@ -15,11 +15,11 @@ export enum AddressState {
 }
 
 export enum SuperChoice {
-    None, APRA, SMSF, EmployerNominated
+    APRA, SMSF, EmployerNominated
 }
 
 export enum EmploymentType {
-    FullTime, PartTime, Casual, SuperIncomeStream, LabourHire
+    FullTime, PartTime, Casual, LabourHire, SuperIncomeStream
 }
 
 export enum ResidencyStatus {

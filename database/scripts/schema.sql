@@ -55,7 +55,7 @@ values
     (4, "Superannuation or annuity income stream")
 ;
 
-create table person (
+create table if not exists main.person (
     Id integer primary key,
     FirstName text not null,
     LastName text not null,
@@ -75,17 +75,17 @@ create table person (
     BankAccountNumber text not null,
     BankBSB text not null,
 
-    SuperChoice integer not null,
+    SuperChoice integer null,
     StapledSuper integer not null,
-    APRAUSI text not null,
-    APRAMemberNumber text not null,
-    SMSFName text not null,
-    SMSFABN text not null,
-    SMSFAccountName text not null,
-    SMSFAccountNumber text not null,
-    SMSFBSB text not null,
-    SMSFElectronicServiceAddress text not null,
-    SuperConfirmed integer not null,
+    APRAUSI text null,
+    APRAMemberNumber text null,
+    SMSFName text null,
+    SMSFABN text null,
+    SMSFAccountName text null,
+    SMSFAccountNumber text null,
+    SMSFBSB text null,
+    SMSFElectronicServiceAddress text null,
+    SuperConfirmed integer null,
 
     TFN text not null,
     DateOfBirth text not null,
@@ -108,10 +108,8 @@ create table person (
     foreign key(ResidencyStatus) references ref_residency_status(Id)
 );
 
-create table submit_token (
+create table if not exists main.access_token (
     token integer primary key,
-    person integer null,
-    date_created text not null,
-
-    foreign key(person) references person(Id)
+    person integer not null,
+    date_created date not null default CURRENT_TIMESTAMP
 );
