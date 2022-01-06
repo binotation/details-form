@@ -1,10 +1,12 @@
 import express, { Application, Request, Response } from 'express'
 import { OutgoingHttpHeaders } from 'http'
 import path from 'path'
+import Database from 'better-sqlite3'
 import { Config, ResponseMessage } from './types'
 
 const config: Config = require('../config.json')
 const app: Application = express()
+const db = new Database(path.join(__dirname, config.databasePath), { fileMustExist: true })
 
 app.use(express.static(path.join(__dirname, config.buildPath)))
 app.use(express.static(path.join(__dirname, config.publicPath)))
@@ -23,12 +25,10 @@ app.post('/auth', (req: Request, res: Response) => {
         responseMessage.error = 'Missing mandatory parameters.'
 
     } else {
-        const clientTokens: any = {}
-        config.registeredClients.forEach(client => {
-            clientTokens[client.id] = client.token
-        })
-        
-        if (clientTokens[id] === token) {
+        const personsTokens = db.prepare('SELECT token FROM access_token where person = ?').all(id)
+        const validToken = personsTokens.reduce((prev: boolean, row: { token: number }) => row.token === parseInt(token) || prev, false)
+
+        if (validToken) {
             status = 200
             responseMessage.authorized = true
         } else {

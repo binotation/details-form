@@ -2,7 +2,7 @@ export interface Config {
     port: number,
     buildPath: string,
     publicPath: string,
-    registeredClients: { id: string, token: string }[]
+    databasePath: string
 }
 
 export interface ResponseMessage {
