@@ -65,7 +65,6 @@ export const ADDRESS_STATE_DISPLAYNAMES: { displayName: string, value: AddressSt
 ])
 
 export const SUPER_CHOICE_DISPLAYNAMES: { displayName: string, value: SuperChoice }[] = enumToChoices(SuperChoice, [
-    '',
     'APRA fund or retirement savings account (RSA)',
     'Self-managed super fund (SMSF)',
     'Super fund nominated by my employer'
@@ -75,8 +74,8 @@ export const EMPLOYMENT_TYPES_DISPLAYNAMES: { displayName: string, value: Employ
     'Full-time employment',
     'Part-time employment',
     'Casual employment',
-    'Superannuation or annuity income stream',
-    'Labour hire'
+    'Labour hire',
+    'Superannuation or annuity income stream'
 ])
 
 export const RESIDENCY_STATUS_DISPLAYNAMES: { displayName: string, value: ResidencyStatus }[] = enumToChoices(ResidencyStatus, [

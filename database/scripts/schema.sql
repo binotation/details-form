@@ -2,22 +2,22 @@ PRAGMA foreign_keys = ON;
 
 create table if not exists main.ref_state (
     Id integer primary key,
-    DisplayName text
+    DisplayName text not null
 );
 
 create table if not exists main.ref_super_choice (
     Id integer primary key,
-    DisplayName text
+    DisplayName text not null
 );
 
 create table if not exists main.ref_residency_status (
     Id integer primary key,
-    DisplayName text
+    DisplayName text not null
 );
 
 create table if not exists main.ref_employment_type (
     Id integer primary key,
-    DisplayName text
+    DisplayName text not null
 );
 
 insert into ref_state
@@ -41,9 +41,9 @@ values
 
 insert into ref_residency_status
 values
-    (0, "Australia or New Zealand Resident"),
-    (1, "Foreign Resident"),
-    (2, "Working Holiday Maker")
+    (0, "Australian resident"),
+    (1, "Foreign resident"),
+    (2, "Working holiday maker")
 ;
 
 insert into ref_employment_type
@@ -51,7 +51,7 @@ values
     (0, "Full-time employment"),
     (1, "Part-time employment"),
     (2, "Casual employment"),
-    (3, "Labour Hire"),
+    (3, "Labour hire"),
     (4, "Superannuation or annuity income stream")
 ;
 

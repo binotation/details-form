@@ -6,6 +6,7 @@ const invalidPatternMsg = 'Invalid symbols'
 const invalidEmailMsg = 'Invalid email'
 const numberRegex = /^[\d]*$/
 const yesNoValidation = yup.string().required(requiredMsg).oneOf(['true', 'false'], requiredMsg)
+const confirmValidation = yup.string().oneOf(['true'], requiredMsg)
 const enumValidation = yup.number().transform(value => isNaN(value) ? undefined : value).required(requiredMsg).min(0, requiredMsg)
 const dateOfBirthValidation = yup.date().nullable().transform((value, originalValue) => originalValue === '' ? null : value)
     .required(requiredMsg).max(new Date(new Date().setDate(new Date().getDate() - 365 * 13)), 'Date of birth is too recent')
@@ -97,7 +98,7 @@ declare module 'yup' {
 function validateIfSuperChoiceSelected(selectedSuperChoice: SuperChoice.APRA | SuperChoice.SMSF,
     initialSchema: yup.StringSchema, completeSchema: yup.StringSchema) {
     return initialSchema.when(['StapledSuper', 'SuperChoice'], {
-        is: (stapledSuper: boolean, superChoice: SuperChoice) => (stapledSuper === false && superChoice === selectedSuperChoice),
+        is: (stapledSuper: 'false' | 'true', superChoice: SuperChoice) => (stapledSuper === 'false' && superChoice === selectedSuperChoice),
         then: completeSchema
     })
 }
@@ -122,10 +123,10 @@ const validationSchema = yup.object({
     BankBSB: yup.string().exactString({ pattern: numberRegex, length: 6 }),
 
     SuperChoice: yup.number().transform(value => isNaN(value) ? undefined : value).when('StapledSuper', {
-        is: false,
+        is: 'false',
         then: (schema: yup.NumberSchema) => schema.required(requiredMsg)
     }),
-    StapledSuper: yup.bool(),
+    StapledSuper: yesNoValidation,
     APRAUSI: validateIfSuperChoiceSelected(SuperChoice.APRA, yup.string().genericString({ required: false, pattern: /^[\dA-Z]*$/, max: 20 }),
         yup.string().genericString({ required: true, pattern: /^[\dA-Z]*$/, min: 9, max: 20 })),
     APRAMemberNumber: validateIfSuperChoiceSelected(SuperChoice.APRA, yup.string().genericString({ required: false, pattern: numberRegex, max: 20 }),
@@ -142,9 +143,9 @@ const validationSchema = yup.object({
         yup.string().exactString({ required: true, pattern: numberRegex, length: 6 })),
     SMSFElectronicServiceAddress: validateIfSuperChoiceSelected(SuperChoice.SMSF, yup.string().genericString({ required: false, pattern: /^[\dA-Z]*$/, max: 16 }),
         yup.string().genericString({ required: true, pattern: /^[\dA-Z]*$/, max: 16 })),
-    SuperConfirmed: yup.bool().when(['StapledSuper', 'SuperChoice'], {
-        is: (stapledSuper: boolean, superChoice: SuperChoice) => (stapledSuper === false && [SuperChoice.APRA, SuperChoice.SMSF].includes(superChoice)),
-        then: yup.bool().oneOf([true], requiredMsg)
+    SuperConfirmed: yup.string().when(['StapledSuper', 'SuperChoice'], {
+        is: (stapledSuper: 'false' | 'true', superChoice: SuperChoice) => (stapledSuper === 'false' && [SuperChoice.APRA, SuperChoice.SMSF].includes(superChoice)),
+        then: confirmValidation
     }),
 
     TFN: yup.string().genericString({ max: 9 }).tfn(),
@@ -156,7 +157,7 @@ const validationSchema = yup.object({
     TaxZoneOverseasInvalidCarer: yesNoValidation,
     HasHelpDebt: yesNoValidation,
     HasSupplementDebt: yesNoValidation,
-    TaxConfirmed: yup.bool().oneOf([true], requiredMsg),
+    TaxConfirmed: confirmValidation,
 
     ResidencyStatus: enumValidation,
     Convicted: yesNoValidation,

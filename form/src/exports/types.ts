@@ -23,7 +23,7 @@ export enum EmploymentType {
 }
 
 export enum ResidencyStatus {
-    AusOrNZ, Overseas, NoWorkRights
+    Australian, Foreign, WorkingHolidayMaker
 }
 
 export interface FormValues {
