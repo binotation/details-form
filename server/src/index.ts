@@ -7,6 +7,7 @@ import { Config, ResponseMessage } from './types'
 const config: Config = require('../config.json')
 const app: Application = express()
 const db = new Database(path.join(__dirname, config.databasePath), { fileMustExist: true })
+const missingMandatoryParamsMsg = 'Missing mandatory parameters'
 const insertSql = `INSERT OR REPLACE INTO person VALUES (
     ?, @FirstName, @LastName, @Email, @Phone,
     @AddressLine, @AddressSuburb, @AddressState, @AddressPostalCode,
@@ -37,7 +38,7 @@ app.post('/auth', (req: Request, res: Response) => {
 
     if ([id, token].includes('')) {
         status = 400
-        responseMessage.error = 'Missing mandatory parameters.'
+        responseMessage.error = { name: missingMandatoryParamsMsg }
 
     } else {
         const validToken = validateToken(token, id)
@@ -67,7 +68,7 @@ app.post('/submit', (req: Request, res: Response) => {
 
     if ([id, token, data].includes('')) {
         status = 400
-        responseMessage.error = 'Missing mandatory parameters.'
+        responseMessage.error = { name: missingMandatoryParamsMsg }
 
     } else {
         const validToken = validateToken(token, id)
@@ -78,9 +79,9 @@ app.post('/submit', (req: Request, res: Response) => {
                 insertStatement.run(id, data)
                 status = 200
                 responseMessage.authorized = true
-            } catch (error) {
+            } catch (error: any) {
                 status = 500
-                console.error(error)
+                responseMessage.error = { name: error.name, message: error.message, code: error.code }
             }
         } else {
             status = 401
