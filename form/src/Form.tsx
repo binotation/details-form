@@ -1,4 +1,4 @@
-import { UrlParams } from './exports/types'
+import { UrlParams, FormValues } from './exports/types'
 import { DEFAULT_VALUES } from './exports/constants'
 import validationSchema from './exports/validationSchema'
 import { useForm } from 'react-hook-form'
@@ -17,7 +17,34 @@ function Form({ id, token }: UrlParams) {
         mode: 'all'
     })
 
-    const onSubmit = (data: any) => { console.log(data) }
+    const onSubmit = (data: FormValues) => {
+        const body = { id, token, data }
+
+        fetch('submit', {
+            method: 'POST',
+            mode: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+            .then(resp => {
+                switch (resp.status) {
+                    case 200: {
+                        alert('Submit success')
+                        break
+                    }
+                    case 401: {
+                        alert('Submit unauthorized')
+                        break
+                    }
+                    default: {
+                        alert('Submit error')
+                    }
+                }
+            })
+            .catch(err => {
+                alert('Submit error')
+            })
+    };
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
