@@ -10,6 +10,7 @@ const confirmValidation = yup.string().oneOf(['true'], requiredMsg)
 const enumValidation = yup.number().transform(value => isNaN(value) ? undefined : value).required(requiredMsg).min(0, requiredMsg)
 const dateOfBirthValidation = yup.date().nullable().transform((value, originalValue) => originalValue === '' ? null : value)
     .required(requiredMsg).max(new Date(new Date().setDate(new Date().getDate() - 365 * 13)), 'Date of birth is too recent')
+const nullTransform = (value: any, originalValue: any) => originalValue === '' ? null : value
 
 function maxLengthMsg(max: number) {
     return `Maximum ${max} characters allowed`
@@ -99,7 +100,8 @@ function validateIfSuperChoiceSelected(selectedSuperChoice: SuperChoice.APRA | S
     initialSchema: yup.StringSchema, completeSchema: yup.StringSchema) {
     return initialSchema.when(['StapledSuper', 'SuperChoice'], {
         is: (stapledSuper: 'false' | 'true', superChoice: SuperChoice) => (stapledSuper === 'false' && superChoice === selectedSuperChoice),
-        then: completeSchema
+        then: completeSchema,
+        otherwise: schema => schema.nullable().transform(nullTransform)
     })
 }
 
@@ -122,9 +124,10 @@ const validationSchema = yup.object({
     BankAccountNumber: yup.string().genericString({ pattern: numberRegex, max: 10 }),
     BankBSB: yup.string().exactString({ pattern: numberRegex, length: 6 }),
 
-    SuperChoice: yup.number().transform(value => isNaN(value) ? undefined : value).when('StapledSuper', {
+    SuperChoice: yup.number().when('StapledSuper', {
         is: 'false',
-        then: (schema: yup.NumberSchema) => schema.required(requiredMsg)
+        then: (schema: yup.NumberSchema) => schema.transform(value => isNaN(value) ? undefined : value).required(requiredMsg),
+        otherwise: yup.number().nullable().transform(nullTransform)
     }),
     StapledSuper: yesNoValidation,
     APRAUSI: validateIfSuperChoiceSelected(SuperChoice.APRA, yup.string().genericString({ required: false, pattern: /^[\dA-Z]*$/, max: 20 }),
@@ -161,7 +164,7 @@ const validationSchema = yup.object({
 
     ResidencyStatus: enumValidation,
     Convicted: yesNoValidation,
-    ConvictionComment: yup.string().genericString({ required: false })
+    ConvictionComment: yup.string().genericString({ required: false }).nullable().transform(nullTransform)
 });
 
 export default validationSchema

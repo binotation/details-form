@@ -85,7 +85,7 @@ create table if not exists main.person (
     SMSFAccountNumber text null,
     SMSFBSB text null,
     SMSFElectronicServiceAddress text null,
-    SuperConfirmed integer null,
+    SuperConfirmed integer not null,
 
     TFN text not null,
     DateOfBirth text not null,
