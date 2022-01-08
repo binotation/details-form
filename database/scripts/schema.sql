@@ -100,7 +100,7 @@ create table if not exists main.person (
 
     ResidencyStatus integer not null,
     Convicted integer not null,
-    ConvictionComment text not null,
+    ConvictionComment text null,
 
     foreign key(AddressState) references ref_state(Id)
     foreign key(SuperChoice) references ref_super_choice(Id)
