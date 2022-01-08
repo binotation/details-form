@@ -9,10 +9,21 @@ import SuperDetails from './form-sections/SuperDetails'
 import TaxDetails from './form-sections/TaxDetails'
 import WorkEligibility from './form-sections/WorkEligibility'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Cookies from 'universal-cookie'
+import CryptoJS from 'crypto-js'
 
 function Form({ id, token }: UrlParams) {
-    const { handleSubmit, control, watch, reset, getValues } = useForm({
-        defaultValues: DEFAULT_VALUES,
+    const cookies = new Cookies()
+    const savedDataCiphertext: string = cookies.get('savedData-' + id)
+    let savedData;
+
+    if (savedDataCiphertext !== undefined) {
+        const savedDataDecrypted: CryptoJS.lib.WordArray = CryptoJS.AES.decrypt(savedDataCiphertext, CryptoJS.SHA256(token).toString())
+        savedData = JSON.parse(savedDataDecrypted.toString(CryptoJS.enc.Utf8))
+    }
+
+    const { handleSubmit, control, watch, getValues } = useForm({
+        defaultValues: savedData ?? DEFAULT_VALUES,
         resolver: yupResolver(validationSchema),
         mode: 'all'
     })
@@ -53,7 +64,7 @@ function Form({ id, token }: UrlParams) {
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
                 <WorkEligibility control={control} />
-                <FormButtons />
+                <FormButtons token={token} id={id} getValues={getValues} />
             </form>
         </Box>
     )
