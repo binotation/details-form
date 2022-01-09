@@ -17,8 +17,6 @@ const trueFalseTransform = yup.number().transform((_, originalValue) => {
 const yesNoValidation = trueFalseTransform.oneOf([Number(BooleanString.True), Number(BooleanString.False)], requiredMsg)
 const confirmValidation = trueFalseTransform.oneOf([Number(BooleanString.True)], requiredMsg)
 const enumValidation = yup.number().transform(value => isNaN(value) ? undefined : value).required(requiredMsg).min(0, requiredMsg)
-const dateOfBirthValidation = yup.date().nullable().transform((value, originalValue) => originalValue === '' ? null : value)
-    .required(requiredMsg).max(new Date(new Date().setDate(new Date().getDate() - 365 * 13)), 'Date of birth is too recent')
 const nullTransform = (value: any, originalValue: any) => originalValue === '' ? null : value
 
 function maxLengthMsg(max: number) {
@@ -94,6 +92,23 @@ yup.addMethod(yup.string, 'tfn', function () {
     })
 })
 
+yup.addMethod(yup.string, 'dateOfBirth', function () {
+    return this.test('valid-dateOfBirth', 'Invalid date of birth', function (value, context) {
+        const { path, createError } = this;
+        if (!value) return true
+
+        const parts = value.split(' ')
+        const dateParts = parts[0].split('-')
+        const year = parseInt(dateParts[0])
+
+        if (year >= new Date().getFullYear() - 16) {
+            return createError({ path, message: 'Date of birth is too recent' })
+        } else {
+            return true
+        }
+    })
+})
+
 declare module 'yup' {
     interface StringSchema {
         genericString(this: yup.StringSchema, { required, pattern, min, max }:
@@ -101,9 +116,22 @@ declare module 'yup' {
         exactString(this: yup.StringSchema, { required, pattern, length }:
             { required?: boolean, pattern?: RegExp, length?: number }): yup.StringSchema,
         abn(): yup.StringSchema,
-        tfn(): yup.StringSchema
+        tfn(): yup.StringSchema,
+        dateOfBirth(): yup.StringSchema
     }
 }
+
+const dateOfBirthValidation = yup.string().transform((_, date: Date | string) => {
+    if (date === '') {
+        return undefined
+    } else if (typeof (date) === 'string') {
+        const dob = new Date(date)
+        return dob.toISOString().substring(0, 10) + ' ' + '00:00:00'
+    } else {
+        date.setHours(date.getHours() - date.getTimezoneOffset()/60)
+        return date.toISOString().substring(0, 10) + ' ' + '00:00:00'
+    }
+}).required(requiredMsg).dateOfBirth()
 
 function validateIfSuperChoiceSelected(selectedSuperChoice: SuperChoice.APRA | SuperChoice.SMSF,
     initialSchema: yup.StringSchema, completeSchema: yup.StringSchema) {
