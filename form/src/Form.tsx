@@ -11,6 +11,7 @@ import WorkEligibility from './form-sections/WorkEligibility'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Cookies from 'universal-cookie'
 import CryptoJS from 'crypto-js'
+import { saveHandler } from './exports/constants'
 
 function Form({ id, token }: UrlParams) {
     const cookies = new Cookies()
@@ -40,6 +41,7 @@ function Form({ id, token }: UrlParams) {
             .then(resp => {
                 switch (resp.status) {
                     case 200: {
+                        saveHandler(id, token, getValues)
                         alert('Submit success')
                         break
                     }

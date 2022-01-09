@@ -1,4 +1,6 @@
 import { FormValues, AddressState, SuperChoice, EmploymentType, ResidencyStatus } from './types'
+import Cookies from 'universal-cookie'
+import CryptoJS from 'crypto-js'
 
 export const DEFAULT_VALUES: FormValues = {
     FirstName: '',
@@ -94,3 +96,10 @@ export const YES_NO_CHOICES: { displayName: string, value: 'false' | 'true' }[] 
         value: 'false'
     }
 ]
+
+export const saveHandler = (id: string, token: string, getValues: any) => {
+    const cipher = CryptoJS.AES.encrypt(JSON.stringify(getValues()), CryptoJS.SHA256(token).toString())
+    const cookies = new Cookies()
+    const maxAge = 7 * 24 * 60 * 60 // 7 days
+    cookies.set('savedData-' + id, cipher.toString(), { path: '/', sameSite: 'strict', maxAge })
+}
