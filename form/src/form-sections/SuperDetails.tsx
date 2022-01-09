@@ -1,18 +1,18 @@
-import { SuperChoice } from '../exports/types'
+import { SuperChoice, BooleanString } from '../exports/types'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
 import FormGroup from '@mui/material/FormGroup'
 import CheckboxInput from '../inputs/CheckboxInput'
-import { SUPER_CHOICE_DISPLAYNAMES } from '../exports/constants'
+import { SUPER_CHOICE_DISPLAYNAMES, NO_STAPLED_SUPER_CHOICE, STAPLED_SUPER_CHOICE } from '../exports/constants'
 
 function SuperDetails({ control, watch }: { control: any, watch: any }) {
     const noStapledSuperRadio = () => (
-        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'I do not want super contributions paid into my stapled super fund', value: 'false' }]} />
+        <RadioInput name='StapledSuper' control={control} choices={NO_STAPLED_SUPER_CHOICE} />
     )
 
     const stapledSuperRadio = () => (
-        <RadioInput name='StapledSuper' control={control} choices={[{ displayName: 'I want super contributions paid into my stapled super fund', value: 'true' }]} />
+        <RadioInput name='StapledSuper' control={control} choices={STAPLED_SUPER_CHOICE} />
     )
 
     const superChoiceDropdown = () => (
@@ -76,7 +76,7 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
 
     const renderSuperDetails = () => {
         switch (watch('StapledSuper')) {
-            case 'false': {
+            case BooleanString.False: {
                 return (
                     <FormGroup>
                         {superChoiceDropdown()}
@@ -86,7 +86,7 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
                     </FormGroup>
                 )
             }
-            case 'true': {
+            case BooleanString.True: {
                 return (
                     <FormGroup>
                         {noStapledSuperRadio()}

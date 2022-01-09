@@ -1,4 +1,4 @@
-import { FormValues, AddressState, SuperChoice, EmploymentType, ResidencyStatus } from './types'
+import { FormValues, AddressState, SuperChoice, EmploymentType, ResidencyStatus, BooleanString } from './types'
 import Cookies from 'universal-cookie'
 import CryptoJS from 'crypto-js'
 
@@ -22,7 +22,7 @@ export const DEFAULT_VALUES: FormValues = {
     BankAccountNumber: '',
 
     SuperChoice: '',
-    StapledSuper: 'false',
+    StapledSuper: BooleanString.False,
     APRAUSI: '',
     APRAMemberNumber: '',
     SMSFName: '',
@@ -86,16 +86,19 @@ export const RESIDENCY_STATUS_DISPLAYNAMES: { displayName: string, value: Reside
     'Working holiday maker'
 ])
 
-export const YES_NO_CHOICES: { displayName: string, value: 'false' | 'true' }[] = [
+export const YES_NO_CHOICES: { displayName: string, value: BooleanString }[] = [
     {
         displayName: 'Yes',
-        value: 'true'
+        value: BooleanString.True
     },
     {
         displayName: 'No',
-        value: 'false'
+        value: BooleanString.False
     }
 ]
+
+export const NO_STAPLED_SUPER_CHOICE = [{ displayName: 'I do not want super contributions paid into my stapled super fund', value: BooleanString.False }]
+export const STAPLED_SUPER_CHOICE = [{ displayName: 'I want super contributions paid into my stapled super fund', value: BooleanString.True }]
 
 export const saveHandler = (id: string, token: string, getValues: any) => {
     const cipher = CryptoJS.AES.encrypt(JSON.stringify(getValues()), CryptoJS.SHA256(token).toString())

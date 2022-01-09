@@ -26,6 +26,10 @@ export enum ResidencyStatus {
     Australian, Foreign, WorkingHolidayMaker
 }
 
+export enum BooleanString {
+    True = '1', False = '0'
+}
+
 export interface FormValues {
     FirstName: string,
     LastName: string,
@@ -46,7 +50,7 @@ export interface FormValues {
     BankBSB: string,
 
     SuperChoice: SuperChoice | '',
-    StapledSuper: 'true' | 'false',
+    StapledSuper: BooleanString,
     APRAUSI: string,
     APRAMemberNumber: string,
     SMSFName: string,
@@ -58,17 +62,17 @@ export interface FormValues {
     SuperConfirmed: boolean,
 
     TFN: string,
-    DateOfBirth: Date | '',
+    DateOfBirth: Date | string,
     EmployeePaidBasis: EmploymentType | '',
-    IsAusResidentForTaxPurposes: '' | 'true' | 'false',
-    TaxFreeThresholdClaimed: '' | 'true' | 'false',
-    SeniorsPensioners: '' | 'true' | 'false',
-    TaxZoneOverseasInvalidCarer: '' | 'true' | 'false',
-    HasHelpDebt: '' | 'true' | 'false',
-    HasSupplementDebt: '' | 'true' | 'false',
+    IsAusResidentForTaxPurposes: BooleanString | '',
+    TaxFreeThresholdClaimed: BooleanString | '',
+    SeniorsPensioners: BooleanString | '',
+    TaxZoneOverseasInvalidCarer: BooleanString | '',
+    HasHelpDebt: BooleanString | '',
+    HasSupplementDebt: BooleanString | '',
     TaxConfirmed: boolean,
 
     ResidencyStatus: ResidencyStatus | '',
-    Convicted: '' | 'true' | 'false',
+    Convicted: BooleanString | '',
     ConvictionComment: string
 }

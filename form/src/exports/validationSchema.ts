@@ -1,11 +1,11 @@
 import * as yup from 'yup'
-import { SuperChoice } from './types'
+import { SuperChoice, BooleanString } from './types'
 
 const requiredMsg = 'This is a mandatory field!'
 const invalidPatternMsg = 'Invalid symbols'
 const invalidEmailMsg = 'Invalid email'
 const numberRegex = /^[\d]*$/
-const yesNoValidation = yup.string().required(requiredMsg).oneOf(['true', 'false'], requiredMsg)
+const yesNoValidation = yup.string().required(requiredMsg).oneOf([BooleanString.True, BooleanString.False], requiredMsg)
 const confirmValidation = yup.string().oneOf(['true'], requiredMsg)
 const enumValidation = yup.number().transform(value => isNaN(value) ? undefined : value).required(requiredMsg).min(0, requiredMsg)
 const dateOfBirthValidation = yup.date().nullable().transform((value, originalValue) => originalValue === '' ? null : value)
@@ -99,9 +99,9 @@ declare module 'yup' {
 function validateIfSuperChoiceSelected(selectedSuperChoice: SuperChoice.APRA | SuperChoice.SMSF,
     initialSchema: yup.StringSchema, completeSchema: yup.StringSchema) {
     return initialSchema.when(['StapledSuper', 'SuperChoice'], {
-        is: (stapledSuper: 'false' | 'true', superChoice: SuperChoice) => (stapledSuper === 'false' && superChoice === selectedSuperChoice),
+        is: (stapledSuper: BooleanString, superChoice: SuperChoice) => (stapledSuper === BooleanString.False && superChoice === selectedSuperChoice),
         then: completeSchema,
-        otherwise: schema => schema.nullable().transform(nullTransform)
+        otherwise: initialSchema.nullable().transform(nullTransform)
     })
 }
 
@@ -125,7 +125,7 @@ const validationSchema = yup.object({
     BankBSB: yup.string().exactString({ pattern: numberRegex, length: 6 }),
 
     SuperChoice: yup.number().when('StapledSuper', {
-        is: 'false',
+        is: BooleanString.False,
         then: (schema: yup.NumberSchema) => schema.transform(value => isNaN(value) ? undefined : value).required(requiredMsg),
         otherwise: yup.number().nullable().transform(nullTransform)
     }),
@@ -147,7 +147,7 @@ const validationSchema = yup.object({
     SMSFElectronicServiceAddress: validateIfSuperChoiceSelected(SuperChoice.SMSF, yup.string().genericString({ required: false, pattern: /^[\dA-Z]*$/, max: 16 }),
         yup.string().genericString({ required: true, pattern: /^[\dA-Z]*$/, max: 16 })),
     SuperConfirmed: yup.string().when(['StapledSuper', 'SuperChoice'], {
-        is: (stapledSuper: 'false' | 'true', superChoice: SuperChoice) => (stapledSuper === 'false' && [SuperChoice.APRA, SuperChoice.SMSF].includes(superChoice)),
+        is: (stapledSuper: BooleanString, superChoice: SuperChoice) => (stapledSuper === BooleanString.False && [SuperChoice.APRA, SuperChoice.SMSF].includes(superChoice)),
         then: confirmValidation
     }),
 
