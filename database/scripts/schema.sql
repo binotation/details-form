@@ -88,7 +88,7 @@ create table if not exists main.person (
     SuperConfirmed integer not null,
 
     TFN text not null,
-    DateOfBirth text not null,
+    DateOfBirth date not null,
     EmployeePaidBasis integer not null,
     IsAusResidentForTaxPurposes integer not null,
     TaxFreeThresholdClaimed integer not null,
