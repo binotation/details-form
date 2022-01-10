@@ -12,8 +12,8 @@ function FormButtons({ token, id, getValues }: { token: string, id: string, getV
 
     return (
         <Box sx={style}>
-            <Button variant='contained' type='submit' sx={buttonStyle}>Submit</Button>
             <Button variant='contained' type='button' sx={buttonStyle} onClick={_ => saveHandler(id, token, getValues)}>Save</Button>
+            <Button variant='contained' type='submit' sx={buttonStyle}>Submit</Button>
         </Box>
     )
 }
