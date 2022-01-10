@@ -30,7 +30,8 @@ function Form({ id, token }: UrlParams) {
     })
 
     const onSubmit = (data: FormValues) => {
-        const body = { id, token, data }
+        const { IdDocuments: idDocuments, ...fields } = data
+        const body = { id, token, data: fields }
 
         fetch('submit', {
             method: 'POST',
