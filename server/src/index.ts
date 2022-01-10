@@ -18,13 +18,14 @@ const insertSql = `INSERT OR REPLACE INTO person VALUES (
     @TFN, @DateOfBirth, @EmployeePaidBasis, @IsAusResidentForTaxPurposes, @TaxFreeThresholdClaimed, @SeniorsPensioners,
     @TaxZoneOverseasInvalidCarer, @HasHelpDebt, @HasSupplementDebt, @TaxConfirmed,
     @ResidencyStatus, @Convicted, @ConvictionComment)`
+const selectPersonTokens = "SELECT token FROM access_token WHERE person = ? AND date_created > date(CURRENT_TIMESTAMP, '-7 day')"
 
 app.use(express.static(path.join(__dirname, config.buildPath)))
 app.use(express.static(path.join(__dirname, config.publicPath)))
 app.use(express.json())
 
 function validateToken(token: string, id: string): boolean {
-    const personsTokens = db.prepare('SELECT token FROM access_token where person = ?').all(id)
+    const personsTokens = db.prepare(selectPersonTokens).all(id)
     return personsTokens.reduce((prev: boolean, row: { token: number }) => row.token === parseInt(token) || prev, false)
 }
 
