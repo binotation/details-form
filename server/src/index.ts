@@ -1,11 +1,12 @@
-import express, { Application, Request, Response } from 'express'
-import { OutgoingHttpHeaders } from 'http'
+import express, { Application, Response } from 'express'
 import path from 'path'
+import fs from 'fs'
 import Database from 'better-sqlite3'
 import { Config, ResponseMessage } from './types'
 
 const config: Config = require('../config.json')
 const app: Application = express()
+const formidable = require('express-formidable')
 const db = new Database(path.join(__dirname, config.databasePath), { fileMustExist: true })
 const missingMandatoryParamsMsg = 'Missing mandatory parameters'
 const insertSql = `INSERT OR REPLACE INTO person VALUES (
@@ -22,20 +23,19 @@ const selectPersonTokens = "SELECT token FROM access_token WHERE person = ? AND 
 
 app.use(express.static(path.join(__dirname, config.buildPath)))
 app.use(express.static(path.join(__dirname, config.publicPath)))
-app.use(express.json())
+app.use(formidable())
 
 function validateToken(token: string, id: string): boolean {
     const personsTokens = db.prepare(selectPersonTokens).all(id)
     return personsTokens.reduce((prev: boolean, row: { token: number }) => row.token === parseInt(token) || prev, false)
 }
 
-app.post('/auth', (req: Request, res: Response) => {
-    const headers: OutgoingHttpHeaders = { 'Content-Type': 'application/json' }
+app.post('/auth', (req: any, res: Response) => {
     let status: number = 500
     const responseMessage: ResponseMessage = {}
 
-    const id: string = req.body['id'] ?? ''
-    const token: string = req.body['token'] ?? ''
+    const id: string = req.fields.id ?? ''
+    const token: string = req.fields.token ?? ''
 
     if ([id, token].includes('')) {
         status = 400
@@ -53,19 +53,16 @@ app.post('/auth', (req: Request, res: Response) => {
         }
     }
 
-    res.set(headers)
-    res.status(status)
-    res.send(JSON.stringify(responseMessage))
+    res.status(status).send(responseMessage)
 })
 
-app.post('/submit', (req: Request, res: Response) => {
-    const headers: OutgoingHttpHeaders = { 'Content-Type': 'application/json' }
+app.post('/submit', (req: any, res: Response) => {
     let status: number = 500
     const responseMessage: ResponseMessage = {}
 
-    const id: string = req.body['id'] ?? ''
-    const token: string = req.body['token'] ?? ''
-    const data = req.body['data'] ?? ''
+    const id: string = req.fields.id ?? ''
+    const token: string = req.fields.token ?? ''
+    const data = req.fields.data ?? ''
 
     if ([id, token, data].includes('')) {
         status = 400
@@ -90,9 +87,43 @@ app.post('/submit', (req: Request, res: Response) => {
         }
     }
 
-    res.set(headers)
-    res.status(status)
-    res.send(JSON.stringify(responseMessage))
+    res.status(status).send(responseMessage)
+})
+
+app.post('/upload', (req: any, res: Response) => {
+    let status: number = 500
+    const responseMessage: ResponseMessage = {}
+    const { id, token }: { id: string, token: string } = req.fields
+
+    if ([id, token].includes('')) {
+        status = 400
+        responseMessage.error = { name: missingMandatoryParamsMsg }
+    } else {
+        const validToken = validateToken(token, id)
+        if (validToken) {
+            const dir = path.join(__dirname, config.blobStorageDir, id)
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir)
+
+            const completed: boolean = Object.values(req.files).every((file: any) => {
+                try {
+                    fs.writeFileSync(path.join(dir, file.name), fs.readFileSync(file.path))
+                    return true
+                }
+                catch (err: any) {
+                    responseMessage.error = { name: err.name, message: err.message.replace(dir, '[redacted]'), code: err.code }
+                    return false
+                }
+            })
+
+            status = completed ? 200 : 500
+            responseMessage.authorized = true
+        } else {
+            status = 401
+            responseMessage.authorized = false
+        }
+    }
+
+    res.status(status).send(responseMessage)
 })
 
 app.listen(config.port, () => {

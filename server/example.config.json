@@ -2,5 +2,6 @@
     "port": 3001,
     "buildPath": "../../form/build",
     "publicPath": "../../form/public",
-    "databasePath": "../../database/data.db"
+    "databasePath": "../../database/data.db",
+    "blobStorageDir": "../storage/"
 }
