@@ -62,8 +62,8 @@ function Form({ id, token }: UrlParams) {
         const filesForm = new FormData()
         filesForm.append('id', id)
         filesForm.append('token', token)
-        Array.from(idDocuments).forEach(file => {
-            filesForm.append(file.name, file)
+        Array.from(idDocuments).forEach((file, index) => {
+            filesForm.append(`document${index}`, file)
         })
 
         fetch('upload', {
