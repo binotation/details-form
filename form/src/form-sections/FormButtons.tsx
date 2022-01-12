@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import { saveHandler } from '../exports/constants'
+import { saveHandler, buttonStyle } from '../exports/constants'
 
 function FormButtons({ token, id, getValues }: { token: string, id: string, getValues: any }) {
     const style = {
@@ -8,7 +8,6 @@ function FormButtons({ token, id, getValues }: { token: string, id: string, getV
         display: 'flex',
         justifyContent: 'center'
     }
-    const buttonStyle = { margin: '0px 8px 0px 8px' }
 
     return (
         <Box sx={style}>

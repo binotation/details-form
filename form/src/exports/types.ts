@@ -73,6 +73,7 @@ export interface FormValues {
     TaxConfirmed: boolean,
 
     ResidencyStatus: ResidencyStatus | '',
+    IdDocuments: FileList | [],
     Convicted: BooleanString | '',
     ConvictionComment: string
 }

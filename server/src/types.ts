@@ -2,7 +2,8 @@ export interface Config {
     port: number,
     buildPath: string,
     publicPath: string,
-    databasePath: string
+    databasePath: string,
+    blobStorageDir: string
 }
 
 export interface ResponseMessage {

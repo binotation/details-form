@@ -45,6 +45,7 @@ export const DEFAULT_VALUES: FormValues = {
     TaxConfirmed: false,
 
     ResidencyStatus: '',
+    IdDocuments: [],
     Convicted: '',
     ConvictionComment: ''
 }
@@ -106,3 +107,5 @@ export const saveHandler = (id: string, token: string, getValues: any) => {
     const maxAge = 7 * 24 * 60 * 60 // 7 days
     cookies.set('savedData-' + id, cipher.toString(), { path: '/', sameSite: 'strict', maxAge })
 }
+
+export const buttonStyle = { margin: '0px 10px 0px 10px' }
