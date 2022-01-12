@@ -56,7 +56,38 @@ function Form({ id, token }: UrlParams) {
                 }
             })
             .catch(err => {
-                alert('Submit error')
+                alert('Submit error: ' + err.message)
+            })
+
+        const filesForm = new FormData()
+        filesForm.append('id', id)
+        filesForm.append('token', token)
+        Array.from(idDocuments).forEach(file => {
+            filesForm.append(file.name, file)
+        })
+
+        fetch('upload', {
+            method: 'POST',
+            mode: 'same-origin',
+            body: filesForm
+        })
+            .then(resp => {
+                switch (resp.status) {
+                    case 200: {
+                        alert('Upload success')
+                        break
+                    }
+                    case 401: {
+                        alert('Upload unauthorized')
+                        break
+                    }
+                    default: {
+                        alert('Upload error')
+                    }
+                }
+            })
+            .catch(err => {
+                alert('Upload error: ' + err.message)
             })
     };
 
