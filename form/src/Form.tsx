@@ -118,7 +118,7 @@ function Form({ id, token }: UrlParams) {
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
                 <WorkEligibility control={control} />
-                <FormButtons token={token} id={id} getValues={getValues} />
+                <FormButtons token={token} id={id} getValues={getValues} openResultDialog={openResultDialog} />
             </form>
             <ResultDialog handleOk={closeResultDialog} {...resultDialogPartialProps} />
         </Box>
