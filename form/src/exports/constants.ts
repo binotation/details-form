@@ -109,3 +109,5 @@ export const saveHandler = (id: string, token: string, getValues: any) => {
 }
 
 export const buttonStyle = { margin: '0px 10px 0px 10px' }
+
+export const DEFAULT_ALERT_DIALOG = { open: false, title: 'error: no title', description: 'error: no description' }
