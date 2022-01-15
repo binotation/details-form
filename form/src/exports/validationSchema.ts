@@ -52,7 +52,7 @@ yup.addMethod(yup.string, 'exactString', function (this: yup.StringSchema, { req
 
 yup.addMethod(yup.string, 'abn', function () {
     return this.test('valid-abn', 'Invalid ABN', function (value, context) {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (!value) return true
 
         const digits: any = value.split('')
@@ -74,7 +74,7 @@ yup.addMethod(yup.string, 'abn', function () {
 
 yup.addMethod(yup.string, 'tfn', function () {
     return this.test('valid-tfn', 'Invalid TFN', function (value, context) {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (!value) return true
 
         const digits: any = value.split('')
@@ -94,7 +94,7 @@ yup.addMethod(yup.string, 'tfn', function () {
 
 yup.addMethod(yup.string, 'dateOfBirth', function () {
     return this.test('valid-dateOfBirth', 'Invalid date of birth', function (value, context) {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (!value) return true
 
         const parts = value.split(' ')
@@ -203,6 +203,6 @@ const validationSchema = yup.object({
     ResidencyStatus: enumValidation,
     Convicted: yesNoValidation,
     ConvictionComment: yup.string().genericString({ required: false }).nullable().transform(nullTransform)
-});
+})
 
 export default validationSchema

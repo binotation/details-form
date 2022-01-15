@@ -12,7 +12,7 @@ function ResultDialog({ open, loading, handleOk, title, description }:
     { open: boolean, handleOk: any, loading: boolean, title: string, description: string }) {
 
     const renderIntoLines = () => {
-        const lines = description.split('\n');
+        const lines = description.split('\n')
         return lines.map((text, index) => {
             if (index === lines.length - 1) {
                 return (
@@ -27,7 +27,7 @@ function ResultDialog({ open, loading, handleOk, title, description }:
                     </Typography>
                 )
             }
-        });
+        })
     }
 
     const renderDialogContent = () => (

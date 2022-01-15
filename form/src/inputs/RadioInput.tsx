@@ -27,7 +27,7 @@ function RadioInput({ name, control, choices, label }:
         flexFlow: 'column',
         justifyContent: 'center',
         marginTop: '24px'
-    };
+    }
 
     return (
         <Controller

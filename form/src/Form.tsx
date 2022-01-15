@@ -18,7 +18,7 @@ function Form({ id, token }: UrlParams) {
     // <---------- Get saved form data ---------->
     const cookies = new Cookies()
     const savedDataCiphertext: string = cookies.get('savedData-' + id)
-    let savedData;
+    let savedData
 
     if (savedDataCiphertext !== undefined) {
         const savedDataDecrypted: CryptoJS.lib.WordArray = CryptoJS.AES.decrypt(savedDataCiphertext, CryptoJS.SHA256(token).toString())
@@ -45,8 +45,8 @@ function Form({ id, token }: UrlParams) {
         const { IdDocuments: idDocuments, ...fields } = data
         const body = { id, token, data: fields }
 
-        let submissionResult: string;
-        let uploadResult: string;
+        let submissionResult: string
+        let uploadResult: string
         const title = 'Submit Status'
 
         openResultDialog({ loading: true, title, description: '' })
@@ -109,7 +109,7 @@ function Form({ id, token }: UrlParams) {
                 uploadResult = `An error occurred. Name: ${err.name}, Message: ${err.message}`
                 openResultDialog({ loading: false, title, description: `Form submission: ${submissionResult}\nDocument upload: ${uploadResult}` })
             })
-    };
+    }
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
