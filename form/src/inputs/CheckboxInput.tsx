@@ -11,7 +11,7 @@ function CheckboxInput({ name, control, label }: { name: string, control: any, l
             name={name}
             control={control}
             render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
-                <FormControl sx={{ display: 'flex', flexFlow: 'column', marginTop: '12px' }}>
+                <FormControl id={name} sx={{ display: 'flex', flexFlow: 'column', marginTop: '12px' }}>
                     <FormGroup>
                         <FormControlLabel label={label} control={<Checkbox checked={value} onChange={onChange} />} />
                     </FormGroup>

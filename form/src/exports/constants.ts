@@ -103,6 +103,48 @@ export const STAPLED_SUPER_CHOICE = [{ displayName: 'I want super contributions 
 export const BUTTON_STYLE = { margin: '0px 10px 0px 10px' }
 export const DEFAULT_RESULT_DIALOG = { open: false, loading: true, title: 'error: no title', description: 'error: no description' }
 
+export const FIELD_ORDER = [
+    "FirstName",
+    "LastName",
+    "Email",
+    "Phone",
+    "AddressLine",
+    "AddressSuburb",
+    "AddressState",
+    "AddressPostalCode",
+    "EmergencyContactName",
+    "EmergencyContactPhone",
+    "EmergencyContactRelationship",
+    "BankAccountName",
+    "BankAccountNumber",
+    "BankBSB",
+    "StapledSuper",
+    "SuperChoice",
+    "APRAUSI",
+    "APRAMemberNumber",
+    "SMSFName",
+    "SMSFABN",
+    "SMSFAccountName",
+    "SMSFAccountNumber",
+    "SMSFBSB",
+    "SMSFElectronicServiceAddress",
+    "SuperConfirmed",
+    "TFN",
+    "DateOfBirth",
+    "EmployeePaidBasis",
+    "IsAusResidentForTaxPurposes",
+    "TaxFreeThresholdClaimed",
+    "SeniorsPensioners",
+    "TaxZoneOverseasInvalidCarer",
+    "HasHelpDebt",
+    "HasSupplementDebt",
+    "TaxConfirmed",
+    "ResidencyStatus",
+    "IdDocuments",
+    "Convicted",
+    "ConvictionComment"
+]
+
 export const saveHandler = (id: string, token: string, getValues: any) => {
     const cipher = CryptoJS.AES.encrypt(JSON.stringify(getValues()), CryptoJS.SHA256(token).toString())
     const cookies = new Cookies()

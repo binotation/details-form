@@ -9,6 +9,7 @@ function TextInput({ name, control, label, textFieldParams }: { name: string, co
             control={control}
             render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
                 <TextField
+                    id={name}
                     onChange={onChange}
                     value={value}
                     variant='standard'

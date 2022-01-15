@@ -12,7 +12,7 @@ function DropdownInput({ name, control, label, choices, shrink }:
             name={name}
             control={control}
             render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
-                <FormControl sx={{ marginTop: '12px' }}>
+                <FormControl id={name} sx={{ marginTop: '12px' }}>
                     <InputLabel id={name + '-label'} error={invalid} sx={{ marginLeft: '-14px' }} shrink={shrink}>{label}</InputLabel>
                     <Select
                         onChange={onChange}
