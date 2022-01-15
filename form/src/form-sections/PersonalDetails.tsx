@@ -1,7 +1,7 @@
+import FormGroup from '@mui/material/FormGroup'
 import { ADDRESS_STATE_DISPLAYNAMES } from '../exports/constants'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
-import FormGroup from '@mui/material/FormGroup'
 
 function PersonalDetails({ control }: { control: any }) {
     return (

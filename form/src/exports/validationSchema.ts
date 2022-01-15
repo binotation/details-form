@@ -52,7 +52,7 @@ yup.addMethod(yup.string, 'exactString', function (this: yup.StringSchema, { req
 
 yup.addMethod(yup.string, 'abn', function () {
     return this.test('valid-abn', 'Invalid ABN', function (value, context) {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (!value) return true
 
         const digits: any = value.split('')
@@ -74,7 +74,7 @@ yup.addMethod(yup.string, 'abn', function () {
 
 yup.addMethod(yup.string, 'tfn', function () {
     return this.test('valid-tfn', 'Invalid TFN', function (value, context) {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (!value) return true
 
         const digits: any = value.split('')
@@ -94,7 +94,7 @@ yup.addMethod(yup.string, 'tfn', function () {
 
 yup.addMethod(yup.string, 'dateOfBirth', function () {
     return this.test('valid-dateOfBirth', 'Invalid date of birth', function (value, context) {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (!value) return true
 
         const parts = value.split(' ')
@@ -126,10 +126,10 @@ const dateOfBirthValidation = yup.string().transform((_, date: Date | string) =>
         return undefined
     } else if (typeof (date) === 'string') {
         const dob = new Date(date)
-        return dob.toISOString().substring(0, 10) + ' ' + '00:00:00'
+        return dob.toISOString().substring(0, 10) + ' 00:00:00'
     } else {
-        date.setHours(date.getHours() - date.getTimezoneOffset()/60)
-        return date.toISOString().substring(0, 10) + ' ' + '00:00:00'
+        date.setHours(date.getHours() - date.getTimezoneOffset() / 60)
+        return date.toISOString().substring(0, 10) + ' 00:00:00'
     }
 }).required(requiredMsg).dateOfBirth()
 
@@ -203,6 +203,6 @@ const validationSchema = yup.object({
     ResidencyStatus: enumValidation,
     Convicted: yesNoValidation,
     ConvictionComment: yup.string().genericString({ required: false }).nullable().transform(nullTransform)
-});
+})
 
 export default validationSchema

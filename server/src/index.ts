@@ -4,10 +4,12 @@ import fs from 'fs'
 import Database from 'better-sqlite3'
 import { Config, ResponseMessage } from './types'
 
-const config: Config = require('../config.json')
 const app: Application = express()
 const formidable = require('express-formidable')
+
+const config: Config = require('../config.json')
 const db = new Database(path.join(__dirname, config.databasePath), { fileMustExist: true })
+
 const missingMandatoryParamsMsg = 'Missing mandatory parameters'
 const insertSql = `INSERT OR REPLACE INTO person VALUES (
     ?, @FirstName, @LastName, @Email, @Phone,

@@ -1,14 +1,14 @@
 import React from 'react'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import FolderIcon from '@mui/icons-material/Folder';
 import { Controller } from 'react-hook-form'
-import { buttonStyle } from '../exports/constants'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import ListItemText from '@mui/material/ListItemText'
+import Avatar from '@mui/material/Avatar'
+import FolderIcon from '@mui/icons-material/Folder'
+import { BUTTON_STYLE } from '../exports/constants'
 
 function FileInput({ name, control, label }: { name: string, control: any, label: string }) {
 
@@ -30,10 +30,10 @@ function FileInput({ name, control, label }: { name: string, control: any, label
                     hidden
                     onChange={() => chooseFileButtonChangeHandler(onChange)}
                 />
-                <Button variant='contained' onClick={() => { fileInputRef.current!.click() }} sx={buttonStyle}>
+                <Button variant='contained' onClick={() => { fileInputRef.current!.click() }} sx={BUTTON_STYLE}>
                     Choose files
                 </Button>
-                <Button variant='contained' onClick={() => { onChange([]) }} sx={buttonStyle}>
+                <Button variant='contained' onClick={() => { onChange([]) }} sx={BUTTON_STYLE}>
                     Clear files
                 </Button>
             </Box>

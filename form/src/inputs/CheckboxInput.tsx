@@ -1,9 +1,9 @@
 import { Controller } from 'react-hook-form'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-import FormHelperText from '@mui/material/FormHelperText'
-import FormControl from '@mui/material/FormControl'
 import FormGroup from '@mui/material/FormGroup'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 
 function CheckboxInput({ name, control, label }: { name: string, control: any, label: string }) {
     return (

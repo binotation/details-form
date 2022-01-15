@@ -1,10 +1,10 @@
+import FormGroup from '@mui/material/FormGroup'
 import { SuperChoice, BooleanString } from '../exports/types'
+import { SUPER_CHOICE_DISPLAYNAMES, NO_STAPLED_SUPER_CHOICE, STAPLED_SUPER_CHOICE } from '../exports/constants'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
-import FormGroup from '@mui/material/FormGroup'
 import CheckboxInput from '../inputs/CheckboxInput'
-import { SUPER_CHOICE_DISPLAYNAMES, NO_STAPLED_SUPER_CHOICE, STAPLED_SUPER_CHOICE } from '../exports/constants'
 
 function SuperDetails({ control, watch }: { control: any, watch: any }) {
     const noStapledSuperRadio = () => (
@@ -47,19 +47,19 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
 
     const renderSuperFields = () => {
         const confirmCheckbox = <CheckboxInput name='SuperConfirmed' control={control} label='Please confirm the information you have entered.' />
-        let fields;
-        let confirm;
+        let fields
+        let confirm
 
         switch (watch('SuperChoice')) {
             case SuperChoice.APRA: {
                 fields = apraFields()
                 confirm = confirmCheckbox
-                break;
+                break
             }
             case SuperChoice.SMSF: {
                 fields = smsfFields()
                 confirm = confirmCheckbox
-                break;
+                break
             }
             default: {
                 fields = null
@@ -95,8 +95,6 @@ function SuperDetails({ control, watch }: { control: any, watch: any }) {
                 )
             }
         }
-
-
     }
 
     return (
