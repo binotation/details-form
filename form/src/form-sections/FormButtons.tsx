@@ -1,6 +1,6 @@
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import { saveHandler, buttonStyle } from '../exports/constants'
+import Button from '@mui/material/Button'
+import { saveHandler, BUTTON_STYLE } from '../exports/constants'
 
 function FormButtons({ token, id, getValues, openResultDialog }:
     { token: string, id: string, getValues: any, openResultDialog: any }) {
@@ -18,8 +18,8 @@ function FormButtons({ token, id, getValues, openResultDialog }:
 
     return (
         <Box sx={style}>
-            <Button variant='contained' type='button' sx={buttonStyle} onClick={handleSave}>Save</Button>
-            <Button variant='contained' type='submit' sx={buttonStyle}>Submit</Button>
+            <Button variant='contained' type='button' sx={BUTTON_STYLE} onClick={handleSave}>Save</Button>
+            <Button variant='contained' type='submit' sx={BUTTON_STYLE}>Submit</Button>
         </Box>
     )
 }

@@ -1,10 +1,10 @@
+import FormGroup from '@mui/material/FormGroup'
+import { EMPLOYMENT_TYPES_DISPLAYNAMES, YES_NO_CHOICES } from '../exports/constants'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 import DateInput from '../inputs/DateInput'
 import RadioInput from '../inputs/RadioInput'
 import CheckboxInput from '../inputs/CheckboxInput'
-import { EMPLOYMENT_TYPES_DISPLAYNAMES, YES_NO_CHOICES } from '../exports/constants'
-import FormGroup from '@mui/material/FormGroup'
 
 function TaxDetails({ control }: { control: any }) {
     return (

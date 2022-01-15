@@ -126,10 +126,10 @@ const dateOfBirthValidation = yup.string().transform((_, date: Date | string) =>
         return undefined
     } else if (typeof (date) === 'string') {
         const dob = new Date(date)
-        return dob.toISOString().substring(0, 10) + ' ' + '00:00:00'
+        return dob.toISOString().substring(0, 10) + ' 00:00:00'
     } else {
-        date.setHours(date.getHours() - date.getTimezoneOffset()/60)
-        return date.toISOString().substring(0, 10) + ' ' + '00:00:00'
+        date.setHours(date.getHours() - date.getTimezoneOffset() / 60)
+        return date.toISOString().substring(0, 10) + ' 00:00:00'
     }
 }).required(requiredMsg).dateOfBirth()
 

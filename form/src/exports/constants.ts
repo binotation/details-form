@@ -100,6 +100,8 @@ export const YES_NO_CHOICES: { displayName: string, value: BooleanString }[] = [
 
 export const NO_STAPLED_SUPER_CHOICE = [{ displayName: 'I do not want super contributions paid into my stapled super fund', value: BooleanString.False }]
 export const STAPLED_SUPER_CHOICE = [{ displayName: 'I want super contributions paid into my stapled super fund', value: BooleanString.True }]
+export const BUTTON_STYLE = { margin: '0px 10px 0px 10px' }
+export const DEFAULT_RESULT_DIALOG = { open: false, loading: true, title: 'error: no title', description: 'error: no description' }
 
 export const saveHandler = (id: string, token: string, getValues: any) => {
     const cipher = CryptoJS.AES.encrypt(JSON.stringify(getValues()), CryptoJS.SHA256(token).toString())
@@ -107,7 +109,3 @@ export const saveHandler = (id: string, token: string, getValues: any) => {
     const maxAge = 7 * 24 * 60 * 60 // 7 days
     cookies.set('savedData-' + id, cipher.toString(), { path: '/', sameSite: 'strict', maxAge })
 }
-
-export const buttonStyle = { margin: '0px 10px 0px 10px' }
-
-export const DEFAULT_RESULT_DIALOG = { open: false, loading: true, title: 'error: no title', description: 'error: no description' }
