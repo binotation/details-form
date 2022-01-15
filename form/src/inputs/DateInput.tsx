@@ -18,6 +18,7 @@ function DateInput({ name, control, label }: { name: string, control: any, label
                         onChange={onChange}
                         renderInput={({ ...params }) =>
                             <TextField
+                                id={name}
                                 sx={{ marginTop: '6px' }}
                                 {...params}
                                 error={invalid}

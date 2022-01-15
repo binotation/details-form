@@ -34,7 +34,7 @@ function RadioInput({ name, control, choices, label }:
             name={name}
             control={control}
             render={({ field: { onChange, value }, fieldState: { invalid, error } }) => (
-                <FormControl sx={style}>
+                <FormControl id={name} sx={style}>
                     <FormGroup sx={{ display: 'flex', flexFlow: 'row' }}>
                         <FormLabel id={name + 'Label'} sx={{ marginRight: '36px' }}>{label}</FormLabel>
                         <RadioGroup value={value} onChange={onChange} sx={{ display: 'flex', flexFlow: 'row' }}>

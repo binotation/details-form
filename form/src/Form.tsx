@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
 import { UrlParams, FormValues, SubmissionResult } from './exports/types'
-import { DEFAULT_VALUES, saveHandler, DEFAULT_RESULT_DIALOG } from './exports/constants'
+import { DEFAULT_VALUES, saveHandler, DEFAULT_RESULT_DIALOG, FIELD_ORDER } from './exports/constants'
 import validationSchema from './exports/validationSchema'
 import FormButtons from './form-sections/FormButtons'
 import PersonalDetails from './form-sections/PersonalDetails'
@@ -111,9 +111,19 @@ function Form({ id, token }: UrlParams) {
             })
     }
 
+    const onError = (errors: Object) => {
+        FIELD_ORDER.every(field => {
+            if (field in errors) {
+                document.getElementById(field)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                return false
+            }
+            return true
+        })
+    }
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <form style={{ width: '56vw', maxWidth: '640px' }} onSubmit={handleSubmit(onSubmit)}>
+            <form style={{ width: '56vw', maxWidth: '640px' }} onSubmit={handleSubmit(onSubmit, onError)}>
                 <PersonalDetails control={control} />
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
