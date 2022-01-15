@@ -1,19 +1,21 @@
-import { UrlParams, FormValues } from './exports/types'
-import { DEFAULT_VALUES } from './exports/constants'
-import validationSchema from './exports/validationSchema'
+import { useState } from 'react'
+import Cookies from 'universal-cookie'
+import CryptoJS from 'crypto-js'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
+import { UrlParams, FormValues, SubmissionResult } from './exports/types'
+import { DEFAULT_VALUES, saveHandler, DEFAULT_RESULT_DIALOG } from './exports/constants'
+import validationSchema from './exports/validationSchema'
 import FormButtons from './form-sections/FormButtons'
 import PersonalDetails from './form-sections/PersonalDetails'
 import SuperDetails from './form-sections/SuperDetails'
 import TaxDetails from './form-sections/TaxDetails'
 import WorkEligibility from './form-sections/WorkEligibility'
-import { yupResolver } from '@hookform/resolvers/yup'
-import Cookies from 'universal-cookie'
-import CryptoJS from 'crypto-js'
-import { saveHandler } from './exports/constants'
+import ResultDialog from './form-sections/ResultDialog'
 
 function Form({ id, token }: UrlParams) {
+    // <---------- Get saved form data ---------->
     const cookies = new Cookies()
     const savedDataCiphertext: string = cookies.get('savedData-' + id)
     let savedData;
@@ -22,6 +24,7 @@ function Form({ id, token }: UrlParams) {
         const savedDataDecrypted: CryptoJS.lib.WordArray = CryptoJS.AES.decrypt(savedDataCiphertext, CryptoJS.SHA256(token).toString())
         savedData = JSON.parse(savedDataDecrypted.toString(CryptoJS.enc.Utf8))
     }
+    // <----------------------------------------->
 
     const { handleSubmit, control, watch, getValues } = useForm({
         defaultValues: savedData ?? DEFAULT_VALUES,
@@ -29,9 +32,24 @@ function Form({ id, token }: UrlParams) {
         mode: 'all'
     })
 
+    const [resultDialogPartialProps, setResultDialogPartialProps] = useState(DEFAULT_RESULT_DIALOG)
+    const closeResultDialog = () => {
+        const { open: _, ...otherProps } = resultDialogPartialProps
+        setResultDialogPartialProps({ open: false, ...otherProps })
+    }
+    const openResultDialog = ({ loading, title, description }: { loading: boolean, title: string, description: string }) => {
+        setResultDialogPartialProps({ open: true, loading, title, description })
+    }
+
     const onSubmit = (data: FormValues) => {
         const { IdDocuments: idDocuments, ...fields } = data
         const body = { id, token, data: fields }
+
+        let submissionResult: string;
+        let uploadResult: string;
+        const title = 'Submit Status'
+
+        openResultDialog({ loading: true, title, description: '' })
 
         fetch('submit', {
             method: 'POST',
@@ -43,20 +61,20 @@ function Form({ id, token }: UrlParams) {
                 switch (resp.status) {
                     case 200: {
                         saveHandler(id, token, getValues)
-                        alert('Submit success')
+                        submissionResult = SubmissionResult.Success
                         break
                     }
                     case 401: {
-                        alert('Submit unauthorized')
+                        submissionResult = SubmissionResult.Unauthorized
                         break
                     }
                     default: {
-                        alert('Submit error')
+                        submissionResult = SubmissionResult.UnknownError
                     }
                 }
             })
             .catch(err => {
-                alert('Submit error: ' + err.message)
+                submissionResult = `An error occurred. Name: ${err.name}, Message: ${err.message}`
             })
 
         const filesForm = new FormData()
@@ -74,20 +92,22 @@ function Form({ id, token }: UrlParams) {
             .then(resp => {
                 switch (resp.status) {
                     case 200: {
-                        alert('Upload success')
+                        uploadResult = SubmissionResult.Success
                         break
                     }
                     case 401: {
-                        alert('Upload unauthorized')
+                        uploadResult = SubmissionResult.Unauthorized
                         break
                     }
                     default: {
-                        alert('Upload error')
+                        uploadResult = SubmissionResult.UnknownError
                     }
                 }
+                openResultDialog({ loading: false, title, description: `Form submission: ${submissionResult}\nDocument upload: ${uploadResult}` })
             })
             .catch(err => {
-                alert('Upload error: ' + err.message)
+                uploadResult = `An error occurred. Name: ${err.name}, Message: ${err.message}`
+                openResultDialog({ loading: false, title, description: `Form submission: ${submissionResult}\nDocument upload: ${uploadResult}` })
             })
     };
 
@@ -98,8 +118,9 @@ function Form({ id, token }: UrlParams) {
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
                 <WorkEligibility control={control} />
-                <FormButtons token={token} id={id} getValues={getValues} />
+                <FormButtons token={token} id={id} getValues={getValues} openResultDialog={openResultDialog} />
             </form>
+            <ResultDialog handleOk={closeResultDialog} {...resultDialogPartialProps} />
         </Box>
     )
 }

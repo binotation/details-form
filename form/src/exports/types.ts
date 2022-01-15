@@ -77,3 +77,9 @@ export interface FormValues {
     Convicted: BooleanString | '',
     ConvictionComment: string
 }
+
+export enum SubmissionResult {
+    Success = 'Success!',
+    Unauthorized = 'Unauthorized',
+    UnknownError = 'An unknown error occurred.'
+}
