@@ -22,6 +22,10 @@ const insertSql = `INSERT OR REPLACE INTO person VALUES (
     @TaxZoneOverseasInvalidCarer, @HasHelpDebt, @HasSupplementDebt, @TaxConfirmed,
     @ResidencyStatus, @Convicted, @ConvictionComment)`
 const selectPersonTokens = "SELECT token FROM access_token WHERE person = ? AND date_created > date(CURRENT_TIMESTAMP, '-7 day')"
+const blobStorageDirPath = path.join(__dirname, config.blobStorageDir)
+
+// Create config.blobStorageDir if it doesn't exist
+if (!fs.existsSync(blobStorageDirPath)) fs.mkdirSync(blobStorageDirPath)
 
 app.use(express.static(path.join(__dirname, config.buildPath)))
 app.use(express.static(path.join(__dirname, config.publicPath)))
@@ -103,7 +107,7 @@ app.post('/upload', (req: any, res: Response) => {
     } else {
         const validToken = validateToken(token, id)
         if (validToken) {
-            const dir = path.join(__dirname, config.blobStorageDir, id)
+            const dir = path.join(blobStorageDirPath, id)
             if (!fs.existsSync(dir)) fs.mkdirSync(dir)
 
             const completed: boolean = Object.values(req.files).every((file: any) => {
