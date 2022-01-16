@@ -97,9 +97,7 @@ yup.addMethod(yup.string, 'dateOfBirth', function () {
         const { path, createError } = this
         if (!value) return true
 
-        const parts = value.split(' ')
-        const dateParts = parts[0].split('-')
-        const year = parseInt(dateParts[0])
+        const year = parseInt(value.substring(0, 4))
 
         if (year >= new Date().getFullYear() - 16) {
             return createError({ path, message: 'Date of birth is too recent' })
@@ -122,14 +120,13 @@ declare module 'yup' {
 }
 
 const dateOfBirthValidation = yup.string().transform((_, date: Date | string) => {
-    if (date === '') {
-        return undefined
-    } else if (typeof (date) === 'string') {
-        const dob = new Date(date)
-        return dob.toISOString().substring(0, 10) + ' 00:00:00'
+    if (!date) {
+        return ''
+    } else if (date instanceof Date) {
+        date.setHours(0, -date.getTimezoneOffset(), 0, 0)
+        return date.toISOString()
     } else {
-        date.setHours(date.getHours() - date.getTimezoneOffset() / 60)
-        return date.toISOString().substring(0, 10) + ' 00:00:00'
+        return date
     }
 }).required(requiredMsg).dateOfBirth()
 
