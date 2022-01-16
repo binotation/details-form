@@ -21,8 +21,11 @@ function Form({ id, token }: UrlParams) {
     let savedData
 
     if (savedDataCiphertext !== undefined) {
-        const savedDataDecrypted: CryptoJS.lib.WordArray = CryptoJS.AES.decrypt(savedDataCiphertext, CryptoJS.SHA256(token).toString())
-        savedData = JSON.parse(savedDataDecrypted.toString(CryptoJS.enc.Utf8))
+        try {
+            const savedDataDecrypted: CryptoJS.lib.WordArray = CryptoJS.AES.decrypt(savedDataCiphertext, CryptoJS.SHA256(token).toString())
+            savedData = JSON.parse(savedDataDecrypted.toString(CryptoJS.enc.Utf8))
+        }
+        catch (err: any) { }
     }
     // <----------------------------------------->
 
