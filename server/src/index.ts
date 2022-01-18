@@ -1,6 +1,7 @@
 import express, { Application, Response } from 'express'
 import path from 'path'
 import fs from 'fs'
+import { writeFile, readFile } from 'fs/promises'
 import Database from 'better-sqlite3'
 import { Config, ResponseMessage } from './types'
 
@@ -102,7 +103,7 @@ app.post('/submit', (req: any, res: Response) => {
     res.status(status).send(responseMessage)
 })
 
-app.post('/upload', (req: any, res: Response) => {
+app.post('/upload', async (req: any, res: Response) => {
     let status: number = 500
     const responseMessage: ResponseMessage = {}
     const { id, token }: { id: string, token: string } = req.fields
@@ -116,17 +117,18 @@ app.post('/upload', (req: any, res: Response) => {
             const dir = path.join(blobStorageDirPath, id)
             if (!fs.existsSync(dir)) fs.mkdirSync(dir)
 
-            const completed: boolean = Object.values(req.files).every((file: any) => {
+            const writeResults: boolean[] = await Promise.all(Object.values(req.files).map(async (file: any) => {
                 try {
-                    fs.writeFileSync(path.join(dir, file.name), fs.readFileSync(file.path))
+                    await writeFile(path.join(dir, file.name), await readFile(file.path))
                     return true
                 }
                 catch (err: any) {
                     responseMessage.error = { name: err.name, message: err.message.replace(dir, '[redacted]'), code: err.code }
                     return false
                 }
-            })
+            }))
 
+            const completed = writeResults.reduce((prev, curr) => (prev && curr), true)
             status = completed ? 200 : 500
             responseMessage.authorized = true
         } else {
