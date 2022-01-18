@@ -19,7 +19,7 @@ function App() {
         if (params.id === '' || params.token === '') {
             setLoadingState(LoadingState.Error)
         } else {
-            fetch('auth', {
+            fetch('/api/auth', {
                 method: 'POST',
                 mode: 'same-origin',
                 headers: {

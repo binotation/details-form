@@ -54,7 +54,7 @@ function Form({ id, token }: UrlParams) {
 
         openResultDialog({ loading: true, title, description: '' })
 
-        fetch('submit', {
+        fetch('/api/submit', {
             method: 'POST',
             mode: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
@@ -87,7 +87,7 @@ function Form({ id, token }: UrlParams) {
             filesForm.append(`document${index}`, file)
         })
 
-        fetch('upload', {
+        fetch('/api/upload', {
             method: 'POST',
             mode: 'same-origin',
             body: filesForm

@@ -43,7 +43,7 @@ function validateToken(token: string, id: string): boolean {
     return personsTokens.reduce((prev: boolean, row: { token: number }) => row.token === parseInt(token) || prev, false)
 }
 
-app.post('/auth', (req: any, res: Response) => {
+app.post('/api/auth', (req: any, res: Response) => {
     let status: number = 500
     const responseMessage: ResponseMessage = {}
 
@@ -69,7 +69,7 @@ app.post('/auth', (req: any, res: Response) => {
     res.status(status).send(responseMessage)
 })
 
-app.post('/submit', (req: any, res: Response) => {
+app.post('/api/submit', (req: any, res: Response) => {
     let status: number = 500
     const responseMessage: ResponseMessage = {}
 
@@ -103,7 +103,7 @@ app.post('/submit', (req: any, res: Response) => {
     res.status(status).send(responseMessage)
 })
 
-app.post('/upload', async (req: any, res: Response) => {
+app.post('/api/upload', async (req: any, res: Response) => {
     let status: number = 500
     const responseMessage: ResponseMessage = { errors: [] }
     const { id, token }: { id: string, token: string } = req.fields
