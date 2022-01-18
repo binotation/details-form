@@ -52,7 +52,7 @@ app.post('/auth', (req: any, res: Response) => {
 
     if ([id, token].includes('')) {
         status = 400
-        responseMessage.error = { name: missingMandatoryParamsMsg }
+        responseMessage.errors = [{ name: missingMandatoryParamsMsg }]
 
     } else {
         const validToken = validateToken(token, id)
@@ -79,7 +79,7 @@ app.post('/submit', (req: any, res: Response) => {
 
     if ([id, token, data].includes('')) {
         status = 400
-        responseMessage.error = { name: missingMandatoryParamsMsg }
+        responseMessage.errors = [{ name: missingMandatoryParamsMsg }]
 
     } else {
         const validToken = validateToken(token, id)
@@ -92,7 +92,7 @@ app.post('/submit', (req: any, res: Response) => {
                 responseMessage.authorized = true
             } catch (error: any) {
                 status = 500
-                responseMessage.error = { name: error.name, message: error.message, code: error.code }
+                responseMessage.errors = [{ name: error.name, message: error.message, code: error.code }]
             }
         } else {
             status = 401
@@ -105,12 +105,12 @@ app.post('/submit', (req: any, res: Response) => {
 
 app.post('/upload', async (req: any, res: Response) => {
     let status: number = 500
-    const responseMessage: ResponseMessage = {}
+    const responseMessage: ResponseMessage = { errors: [] }
     const { id, token }: { id: string, token: string } = req.fields
 
     if ([id, token].includes('')) {
         status = 400
-        responseMessage.error = { name: missingMandatoryParamsMsg }
+        responseMessage.errors = [{ name: missingMandatoryParamsMsg }]
     } else {
         const validToken = validateToken(token, id)
         if (validToken) {
@@ -123,7 +123,7 @@ app.post('/upload', async (req: any, res: Response) => {
                     return true
                 }
                 catch (err: any) {
-                    responseMessage.error = { name: err.name, message: err.message.replace(dir, '[redacted]'), code: err.code }
+                    responseMessage.errors!.push({ name: err.name, message: err.message.replace(dir, '[redacted]'), code: err.code })
                     return false
                 }
             }))

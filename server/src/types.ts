@@ -7,6 +7,6 @@ export interface Config {
 }
 
 export interface ResponseMessage {
-    error?: { name: string, message?: string, code?: string },
+    errors?: { name: string, message?: string, code?: string }[],
     authorized?: boolean
 }
