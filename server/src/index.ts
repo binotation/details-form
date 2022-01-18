@@ -23,13 +23,19 @@ const insertSql = `INSERT OR REPLACE INTO person VALUES (
     @ResidencyStatus, @Convicted, @ConvictionComment)`
 const selectPersonTokens = "SELECT token FROM access_token WHERE person = ? AND date_created > date(CURRENT_TIMESTAMP, '-7 day')"
 const blobStorageDirPath = path.join(__dirname, config.blobStorageDir)
+const events = [
+    {
+        event: 'error',
+        action: function (err: any) { console.error(err) }
+    }
+]
 
 // Create config.blobStorageDir if it doesn't exist
 if (!fs.existsSync(blobStorageDirPath)) fs.mkdirSync(blobStorageDirPath)
 
 app.use(express.static(path.join(__dirname, config.buildPath)))
 app.use(express.static(path.join(__dirname, config.publicPath)))
-app.use(formidable())
+app.use(formidable({}, events))
 
 function validateToken(token: string, id: string): boolean {
     const personsTokens = db.prepare(selectPersonTokens).all(id)
