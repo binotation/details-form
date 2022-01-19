@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { saveHandler, BUTTON_STYLE } from '../exports/constants'
+import { saveForm, BUTTON_STYLE } from '../exports/constants'
 
 function FormButtons({ token, id, getValues, openResultDialog }:
     { token: string, id: string, getValues: any, openResultDialog: any }) {
@@ -12,7 +12,7 @@ function FormButtons({ token, id, getValues, openResultDialog }:
     }
 
     const handleSave = () => {
-        saveHandler(id, token, getValues)
+        saveForm(id, token, getValues)
         openResultDialog({ loading: false, title: 'Save', description: 'Save completed.' })
     }
 

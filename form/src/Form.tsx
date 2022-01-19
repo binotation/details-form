@@ -4,8 +4,8 @@ import CryptoJS from 'crypto-js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
-import { UrlParams, FormValues, SubmissionResult } from './exports/types'
-import { DEFAULT_VALUES, saveHandler, DEFAULT_RESULT_DIALOG, FIELD_ORDER } from './exports/constants'
+import { UrlParams, FormValues, SubmissionResult, SubmitType } from './exports/types'
+import { DEFAULT_VALUES, saveForm, FIELD_ORDER } from './exports/constants'
 import validationSchema from './exports/validationSchema'
 import FormButtons from './form-sections/FormButtons'
 import PersonalDetails from './form-sections/PersonalDetails'
@@ -35,50 +35,14 @@ function Form({ id, token }: UrlParams) {
         mode: 'all'
     })
 
-    const [resultDialogPartialProps, setResultDialogPartialProps] = useState(DEFAULT_RESULT_DIALOG)
-    const closeResultDialog = () => {
-        const { open: _, ...otherProps } = resultDialogPartialProps
-        setResultDialogPartialProps({ open: false, ...otherProps })
-    }
-    const openResultDialog = ({ loading, title, description }: { loading: boolean, title: string, description: string }) => {
-        setResultDialogPartialProps({ open: true, loading, title, description })
-    }
+    const [submissionResultDialogOpen, setSubmissionResultDialogOpen] = useState(false)
+    const [formResult, setFormResult] = useState('')
+    const [uploadResult, setUploadResult] = useState('')
+    function closeSubmissionResultDialog() { setSubmissionResultDialogOpen(false) }
 
     const onSubmit = (data: FormValues) => {
         const { IdDocuments: idDocuments, ...fields } = data
-        const body = { id, token, data: fields }
-
-        let submissionResult: string
-        let uploadResult: string
-        const title = 'Submit Status'
-
-        openResultDialog({ loading: true, title, description: '' })
-
-        fetch('/api/submit', {
-            method: 'POST',
-            mode: 'same-origin',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        })
-            .then(resp => {
-                switch (resp.status) {
-                    case 200: {
-                        saveHandler(id, token, getValues)
-                        submissionResult = SubmissionResult.Success
-                        break
-                    }
-                    case 401: {
-                        submissionResult = SubmissionResult.Unauthorized
-                        break
-                    }
-                    default: {
-                        submissionResult = SubmissionResult.UnknownError
-                    }
-                }
-            })
-            .catch(err => {
-                submissionResult = `An error occurred. Name: ${err.name}, Message: ${err.message}`
-            })
+        const submitBody = { id, token, data: fields }
 
         const filesForm = new FormData()
         filesForm.append('id', id)
@@ -87,31 +51,69 @@ function Form({ id, token }: UrlParams) {
             filesForm.append(`document${index}`, file)
         })
 
+        setSubmissionResultDialogOpen(true)
+        setFormResult('')
+        setUploadResult('')
+
+        function errorMessage(name: string, message: string) {
+            return `An error occurred.\n\tName: ${name},\n\tMessage: ${message}`
+        }
+
+        async function handleResponse(resp: Response, type: SubmitType) {
+            const setResult = type === SubmitType.Form ? setFormResult : setUploadResult
+            switch (resp.status) {
+                case 200: {
+                    if (type === SubmitType.Form) saveForm(id, token, getValues)
+                    setResult(SubmissionResult.Success)
+                    break
+                }
+                case 401: {
+                    setResult(SubmissionResult.Unauthorized)
+                    break
+                }
+                case 500: {
+                    let resultMessage: string
+                    try {
+                        const responseMessage = await resp.json()
+                        const errors: any[] = responseMessage.errors
+                        resultMessage = '[\n' + errors.reduce((prevError, error) => (
+                            prevError + errorMessage(error?.name, error?.message) + ',\n'
+                        ), '') + ']'
+                    }
+                    catch (err: any) {
+                        resultMessage = SubmissionResult.UnknownError
+                    }
+
+                    setResult(resultMessage)
+                    break
+                }
+                default: {
+                    setResult(SubmissionResult.UnknownError)
+                }
+            }
+        }
+
+        async function handleError(err: any, type: SubmitType) {
+            const setResult = type === SubmitType.Form ? setFormResult : setUploadResult
+            setResult(errorMessage(err.name, err.message))
+        }
+
+        fetch('/api/submit', {
+            method: 'POST',
+            mode: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submitBody)
+        })
+            .then(res => { handleResponse(res, SubmitType.Form) })
+            .catch(err => { handleError(err, SubmitType.Form) })
+
         fetch('/api/upload', {
             method: 'POST',
             mode: 'same-origin',
             body: filesForm
         })
-            .then(resp => {
-                switch (resp.status) {
-                    case 200: {
-                        uploadResult = SubmissionResult.Success
-                        break
-                    }
-                    case 401: {
-                        uploadResult = SubmissionResult.Unauthorized
-                        break
-                    }
-                    default: {
-                        uploadResult = SubmissionResult.UnknownError
-                    }
-                }
-                openResultDialog({ loading: false, title, description: `Form submission: ${submissionResult}\nDocument upload: ${uploadResult}` })
-            })
-            .catch(err => {
-                uploadResult = `An error occurred. Name: ${err.name}, Message: ${err.message}`
-                openResultDialog({ loading: false, title, description: `Form submission: ${submissionResult}\nDocument upload: ${uploadResult}` })
-            })
+            .then(res => { handleResponse(res, SubmitType.Upload) })
+            .catch(err => { handleError(err, SubmitType.Upload) })
     }
 
     const onError = (errors: Object) => {
@@ -124,6 +126,10 @@ function Form({ id, token }: UrlParams) {
         })
     }
 
+    const [saveResultDialogOpen, setSaveResultDialogOpen] = useState(false)
+    function closeSaveResultDialog() { setSaveResultDialogOpen(false) }
+    function openSaveResultDialog() { setSaveResultDialogOpen(true) }
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <form style={{ width: '56vw', maxWidth: '640px' }} onSubmit={handleSubmit(onSubmit, onError)}>
@@ -131,9 +137,22 @@ function Form({ id, token }: UrlParams) {
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
                 <WorkEligibility control={control} />
-                <FormButtons token={token} id={id} getValues={getValues} openResultDialog={openResultDialog} />
+                <FormButtons token={token} id={id} getValues={getValues} openResultDialog={openSaveResultDialog} />
             </form>
-            <ResultDialog handleOk={closeResultDialog} {...resultDialogPartialProps} />
+            <ResultDialog
+                handleOk={closeSubmissionResultDialog}
+                open={submissionResultDialogOpen}
+                loading={!formResult || !uploadResult}
+                title='Submission Status'
+                description={`Form submission: ${formResult}\n\nDocument upload: ${uploadResult}`}
+            />
+            <ResultDialog
+                handleOk={closeSaveResultDialog}
+                open={saveResultDialogOpen}
+                loading={false}
+                title='Save'
+                description='Save completed.'
+            />
         </Box>
     )
 }
