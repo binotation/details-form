@@ -144,7 +144,7 @@ export const FIELD_ORDER = [
     "ConvictionComment"
 ]
 
-export const saveHandler = (id: string, token: string, getValues: any) => {
+export const saveForm = (id: string, token: string, getValues: any) => {
     const cipher = CryptoJS.AES.encrypt(JSON.stringify(getValues()), CryptoJS.SHA256(token).toString())
     const cookies = new Cookies()
     const maxAge = 7 * 24 * 60 * 60 // 7 days

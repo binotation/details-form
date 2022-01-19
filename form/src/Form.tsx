@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
 import { UrlParams, FormValues, SubmissionResult, SubmitType } from './exports/types'
-import { DEFAULT_VALUES, saveHandler, FIELD_ORDER } from './exports/constants'
+import { DEFAULT_VALUES, saveForm, FIELD_ORDER } from './exports/constants'
 import validationSchema from './exports/validationSchema'
 import FormButtons from './form-sections/FormButtons'
 import PersonalDetails from './form-sections/PersonalDetails'
@@ -63,7 +63,7 @@ function Form({ id, token }: UrlParams) {
             const setResult = type === SubmitType.Form ? setFormResult : setUploadResult
             switch (resp.status) {
                 case 200: {
-                    if (type === SubmitType.Form) saveHandler(id, token, getValues)
+                    if (type === SubmitType.Form) saveForm(id, token, getValues)
                     setResult(SubmissionResult.Success)
                     break
                 }
