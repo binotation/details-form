@@ -83,7 +83,3 @@ export enum SubmissionResult {
     Unauthorized = 'Unauthorized',
     UnknownError = 'An unknown error occurred.'
 }
-
-export enum SubmitType {
-    Form, Upload
-}

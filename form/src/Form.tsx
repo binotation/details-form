@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Cookies from 'universal-cookie'
 import CryptoJS from 'crypto-js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
-import { UrlParams, FormValues, SubmissionResult, SubmitType } from './exports/types'
+import { UrlParams, FormValues, SubmissionResult } from './exports/types'
 import { DEFAULT_VALUES, saveForm, FIELD_ORDER } from './exports/constants'
 import validationSchema from './exports/validationSchema'
 import FormButtons from './form-sections/FormButtons'
@@ -59,11 +59,10 @@ function Form({ id, token }: UrlParams) {
             return `An error occurred.\n\tName: ${name},\n\tMessage: ${message}`
         }
 
-        async function handleResponse(resp: Response, type: SubmitType) {
-            const setResult = type === SubmitType.Form ? setFormResult : setUploadResult
+        async function handleResponse(resp: Response, setResult: React.Dispatch<React.SetStateAction<string>>) {
             switch (resp.status) {
                 case 200: {
-                    if (type === SubmitType.Form) saveForm(id, token, getValues)
+                    if (setResult === setFormResult) saveForm(id, token, getValues)
                     setResult(SubmissionResult.Success)
                     break
                 }
@@ -93,8 +92,7 @@ function Form({ id, token }: UrlParams) {
             }
         }
 
-        async function handleError(err: any, type: SubmitType) {
-            const setResult = type === SubmitType.Form ? setFormResult : setUploadResult
+        async function handleError(err: any, setResult: React.Dispatch<React.SetStateAction<string>>) {
             setResult(errorMessage(err.name, err.message))
         }
 
@@ -104,16 +102,16 @@ function Form({ id, token }: UrlParams) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(submitBody)
         })
-            .then(res => { handleResponse(res, SubmitType.Form) })
-            .catch(err => { handleError(err, SubmitType.Form) })
+            .then(res => { handleResponse(res, setFormResult) })
+            .catch(err => { handleError(err, setFormResult) })
 
         fetch('/api/upload', {
             method: 'POST',
             mode: 'same-origin',
             body: filesForm
         })
-            .then(res => { handleResponse(res, SubmitType.Upload) })
-            .catch(err => { handleError(err, SubmitType.Upload) })
+            .then(res => { handleResponse(res, setUploadResult) })
+            .catch(err => { handleError(err, setUploadResult) })
     }
 
     const onError = (errors: Object) => {
@@ -137,7 +135,7 @@ function Form({ id, token }: UrlParams) {
                 <SuperDetails control={control} watch={watch} />
                 <TaxDetails control={control} />
                 <WorkEligibility control={control} />
-                <FormButtons token={token} id={id} getValues={getValues} openResultDialog={openSaveResultDialog} />
+                <FormButtons token={token} id={id} getValues={getValues} openSaveResultDialog={openSaveResultDialog} />
             </form>
             <ResultDialog
                 handleOk={closeSubmissionResultDialog}

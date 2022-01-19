@@ -1,9 +1,10 @@
+import { UseFormGetValues } from 'react-hook-form'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { saveForm, BUTTON_STYLE } from '../exports/constants'
 
-function FormButtons({ token, id, getValues, openResultDialog }:
-    { token: string, id: string, getValues: any, openResultDialog: any }) {
+function FormButtons({ token, id, getValues, openSaveResultDialog }:
+    { token: string, id: string, getValues: UseFormGetValues<any>, openSaveResultDialog: () => void }) {
 
     const style = {
         marginTop: '36px',
@@ -13,7 +14,7 @@ function FormButtons({ token, id, getValues, openResultDialog }:
 
     const handleSave = () => {
         saveForm(id, token, getValues)
-        openResultDialog({ loading: false, title: 'Save', description: 'Save completed.' })
+        openSaveResultDialog()
     }
 
     return (
