@@ -1,3 +1,4 @@
+import { Control, UseFormWatch } from 'react-hook-form'
 import FormGroup from '@mui/material/FormGroup'
 import { SuperChoice, BooleanString } from '../exports/types'
 import { SUPER_CHOICE_DISPLAYNAMES, NO_STAPLED_SUPER_CHOICE, STAPLED_SUPER_CHOICE } from '../exports/constants'
@@ -6,7 +7,7 @@ import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
 import CheckboxInput from '../inputs/CheckboxInput'
 
-function SuperDetails({ control, watch }: { control: any, watch: any }) {
+function SuperDetails({ control, watch }: { control: Control<any, Object>, watch: UseFormWatch<any> }) {
     const noStapledSuperRadio = () => (
         <RadioInput name='StapledSuper' control={control} choices={NO_STAPLED_SUPER_CHOICE} />
     )

@@ -1,4 +1,5 @@
 import { FormValues, AddressState, SuperChoice, EmploymentType, ResidencyStatus, BooleanString } from './types'
+import { UseFormGetValues } from 'react-hook-form'
 import Cookies from 'universal-cookie'
 import CryptoJS from 'crypto-js'
 
@@ -144,7 +145,7 @@ export const FIELD_ORDER = [
     "ConvictionComment"
 ]
 
-export const saveForm = (id: string, token: string, getValues: any) => {
+export const saveForm = (id: string, token: string, getValues: UseFormGetValues<any>) => {
     const cipher = CryptoJS.AES.encrypt(JSON.stringify(getValues()), CryptoJS.SHA256(token).toString())
     const cookies = new Cookies()
     const maxAge = 7 * 24 * 60 * 60 // 7 days

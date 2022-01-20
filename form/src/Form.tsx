@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Cookies from 'universal-cookie'
 import CryptoJS from 'crypto-js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
-import { UrlParams, FormValues, SubmissionResult } from './exports/types'
+import { UrlParams, FormValues, SubmissionResult, ResponseMessage } from './exports/types'
 import { DEFAULT_VALUES, saveForm, FIELD_ORDER } from './exports/constants'
 import validationSchema from './exports/validationSchema'
 import FormButtons from './form-sections/FormButtons'
@@ -73,10 +73,10 @@ function Form({ id, token }: UrlParams) {
                 case 500: {
                     let resultMessage: string
                     try {
-                        const responseMessage = await resp.json()
-                        const errors: any[] = responseMessage.errors
+                        const responseMessage: ResponseMessage = await resp.json()
+                        const errors = responseMessage.errors!
                         resultMessage = '[\n' + errors.reduce((prevError, error) => (
-                            prevError + errorMessage(error?.name, error?.message) + ',\n'
+                            prevError + errorMessage(error.name, error.message ?? '') + ',\n'
                         ), '') + ']'
                     }
                     catch (err: any) {
