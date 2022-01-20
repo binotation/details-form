@@ -1,3 +1,4 @@
+import { Control } from 'react-hook-form'
 import FormGroup from '@mui/material/FormGroup'
 import { EMPLOYMENT_TYPES_DISPLAYNAMES, YES_NO_CHOICES } from '../exports/constants'
 import TextInput from '../inputs/TextInput'
@@ -6,7 +7,7 @@ import DateInput from '../inputs/DateInput'
 import RadioInput from '../inputs/RadioInput'
 import CheckboxInput from '../inputs/CheckboxInput'
 
-function TaxDetails({ control }: { control: any }) {
+function TaxDetails({ control }: { control: Control<any, Object> }) {
     return (
         <div>
             <h2>Tax Details</h2>

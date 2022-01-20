@@ -1,9 +1,10 @@
+import { Control } from 'react-hook-form'
 import FormGroup from '@mui/material/FormGroup'
 import { ADDRESS_STATE_DISPLAYNAMES } from '../exports/constants'
 import TextInput from '../inputs/TextInput'
 import DropdownInput from '../inputs/DropdownInput'
 
-function PersonalDetails({ control }: { control: any }) {
+function PersonalDetails({ control }: { control: Control<any, Object> }) {
     return (
         <div>
             <h2>Personal Details</h2>

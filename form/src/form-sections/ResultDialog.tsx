@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField'
 import CircularProgress from '@mui/material/CircularProgress'
 
 function ResultDialog({ open, loading, handleOk, title, description }:
-    { open: boolean, handleOk: any, loading: boolean, title: string, description: string }) {
+    { open: boolean, handleOk: React.MouseEventHandler<HTMLButtonElement>, loading: boolean, title: string, description: string }) {
 
     const renderDialogContent = () => (
         loading ?

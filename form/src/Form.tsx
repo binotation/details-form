@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Cookies from 'universal-cookie'
 import CryptoJS from 'crypto-js'
 import { useForm } from 'react-hook-form'

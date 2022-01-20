@@ -1,3 +1,4 @@
+import { Control } from 'react-hook-form'
 import FormGroup from '@mui/material/FormGroup'
 import { RESIDENCY_STATUS_DISPLAYNAMES, YES_NO_CHOICES } from '../exports/constants'
 import TextInput from '../inputs/TextInput'
@@ -5,7 +6,7 @@ import DropdownInput from '../inputs/DropdownInput'
 import RadioInput from '../inputs/RadioInput'
 import FileInput from '../inputs/FileInput'
 
-function WorkEligibility({ control }: { control: any }) {
+function WorkEligibility({ control }: { control: Control<any, Object> }) {
     return (
         <FormGroup>
             <DropdownInput name='ResidencyStatus' control={control} label='Residency Status' choices={RESIDENCY_STATUS_DISPLAYNAMES} />
