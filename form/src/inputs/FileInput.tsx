@@ -1,5 +1,5 @@
 import React from 'react'
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import List from '@mui/material/List'
@@ -10,14 +10,14 @@ import Avatar from '@mui/material/Avatar'
 import FolderIcon from '@mui/icons-material/Folder'
 import { BUTTON_STYLE } from '../exports/constants'
 
-function FileInput({ name, control, label }: { name: string, control: any, label: string }) {
+function FileInput({ name, control, label }: { name: string, control: Control<any, Object>, label: string }) {
 
-    const chooseFileButtonChangeHandler = (onChange: any) => {
+    const chooseFileButtonChangeHandler = (onChange: (...events: any[]) => void) => {
         const files = (document.getElementById(name) as HTMLInputElement).files
         onChange(files)
     }
 
-    const Buttons = ({ onChange }: { onChange: any }) => {
+    function Buttons({ onChange }: { onChange: (...events: any[]) => void }) {
         const fileInputRef = React.useRef<HTMLInputElement>(null)
 
         return (
@@ -40,7 +40,7 @@ function FileInput({ name, control, label }: { name: string, control: any, label
         )
     }
 
-    const FilesList = ({ files }: { files: FileList }) => {
+    function FilesList({ files }: { files: FileList }) {
         return (
             <List dense>
                 {Array.from(files).map((file: File, index: number) => (

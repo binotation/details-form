@@ -1,4 +1,5 @@
-import { Controller } from 'react-hook-form'
+import { RadioChoice } from '../exports/types'
+import { Control, Controller } from 'react-hook-form'
 import FormGroup from '@mui/material/FormGroup'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
@@ -8,7 +9,7 @@ import Radio from '@mui/material/Radio'
 import FormHelperText from '@mui/material/FormHelperText'
 
 function RadioInput({ name, control, choices, label }:
-    { name: string, control: any, choices: { displayName: string, value: number | string }[], label?: string }) {
+    { name: string, control: Control<any, Object>, choices: RadioChoice[], label?: string }) {
 
     const renderChoices = () => (
         choices.map((choice, index) => (

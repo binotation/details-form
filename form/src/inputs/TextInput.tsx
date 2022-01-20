@@ -1,7 +1,8 @@
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import TextField, { TextFieldProps } from '@mui/material/TextField'
 
-function TextInput({ name, control, label, textFieldParams }: { name: string, control: any, label: string, textFieldParams?: TextFieldProps }) {
+function TextInput({ name, control, label, textFieldParams }:
+    { name: string, control: Control<any, Object>, label: string, textFieldParams?: TextFieldProps }) {
 
     return (
         <Controller

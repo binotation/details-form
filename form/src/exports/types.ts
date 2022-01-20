@@ -26,9 +26,13 @@ export enum ResidencyStatus {
     Australian, Foreign, WorkingHolidayMaker
 }
 
+export type DropdownChoice = { displayName: string, value: number }
+
 export enum BooleanString {
     True = '1', False = '0'
 }
+
+export type RadioChoice = { displayName: string, value: string }
 
 export interface FormValues {
     FirstName: string,
