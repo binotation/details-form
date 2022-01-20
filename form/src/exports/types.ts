@@ -83,3 +83,8 @@ export enum SubmissionResult {
     Unauthorized = 'Unauthorized',
     UnknownError = 'An unknown error occurred.'
 }
+
+export interface ResponseMessage {
+    errors?: { name: string, message?: string, code?: string }[],
+    authorized?: boolean
+}
